@@ -238,7 +238,7 @@ def page(rec, record_dir, site):
             + "\n".join(rows) + "</body></html>\n")
 
 
-def pages(record_dir, site):
+def pages(record_dir, site, archive_release=True):
     record_dir, site = pathlib.Path(record_dir), pathlib.Path(site)
     rec = json.loads((record_dir / "record.json").read_text())
     family = rec["family"]
@@ -248,7 +248,10 @@ def pages(record_dir, site):
         shutil.copy(record_dir / f"sbom-{arch}.spdx.json", site / "sbom" / family / f"sbom-{arch}.spdx.json")
         shutil.copy(record_dir / f"stig-{arch}.html", site / "reports" / family / f"stig-{arch}.html")
     (site / "images" / f"{family}.html").write_text(page(rec, record_dir, site))
-    # Evidence archive: kept after the image itself is deleted by the five-version retention
+    # Evidence archive: kept after the image itself is deleted by the five-version retention.
+    # Written once, when the version is released; status refreshes leave it as it was.
+    if not archive_release:
+        return write_status(rec, site)
     archive = site / "archive" / family / rec["release"]
     archive.mkdir(parents=True, exist_ok=True)
     for f in ["record.json", "notes.md"] + [f"sbom-{a}.spdx.json" for a in ARCHES] + [f"stig-{a}.html" for a in ARCHES]:
@@ -257,6 +260,11 @@ def pages(record_dir, site):
     # The archived page links the archived copies next to it
     (archive / "index.html").write_text(page(rec, record_dir, site).replace(f"../sbom/{family}/", "").replace(
         f"../reports/{family}/", ""))
+    write_status(rec, site)
+
+
+def write_status(rec, site):
+    family = rec["family"]
     stig = rec["scans"]["x86_64"]["stig"]
     vulns = {
         s: max(rec["scans"][a]["vulnerabilities"]["counts"].get(s, 0) for a in ARCHES)
@@ -299,6 +307,6 @@ if __name__ == "__main__":
     elif command == "notes":
         print(notes(json.loads(pathlib.Path(sys.argv[2]).read_text())), end="")
     elif command == "pages":
-        pages(sys.argv[2], sys.argv[3])
+        pages(sys.argv[2], sys.argv[3], archive_release="--no-archive" not in sys.argv[4:])
     else:
         sys.exit(f"unknown command {command}")

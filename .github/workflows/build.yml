@@ -399,6 +399,42 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      # Unchanged image: no release, but its status (today's vulnerability scan, the profile results,
+      # the SBOM) is refreshed on the status pages and badges, since new CVEs appear every day
+      - name: Status Record
+        if: steps.changed.outputs.changed == 'false'
+        env:
+          CURRENT: ${{ steps.changed.outputs.current }}
+          FLOATING: ${{ steps.tags.outputs.floating }}
+        run: |
+          major="${FAMILY%%-*}"
+          if [ "$FLAVOR" = dev ]; then re="^${major}\.[0-9]+\.[0-9]+-dev-[0-9]{8}\.[0-9]+\$"; else re="^${major}\.[0-9]+\.[0-9]+-[0-9]{8}\.[0-9]+\$"; fi
+          release=""
+          for tag in $(oras repo tags "$IMAGE" | grep -E "$re" | sort -r); do
+            if [ "$(oras resolve "$IMAGE:$tag")" = "$CURRENT" ]; then release="$tag"; break; fi
+          done
+          if [ -z "$release" ]; then
+            echo "::warning::no release tag found on $CURRENT; status not refreshed"
+            exit 0
+          fi
+          cp "results/results-$FAMILY-x86_64/packages.txt" out/same.txt
+          mkdir -p status
+          INDEX="$CURRENT" RELEASE="$release" python3 scripts/release.py record out/same.txt out/same.txt results > status/record.json
+          for arch in x86_64 aarch64; do
+            cp "results/results-$FAMILY-$arch/stig/report.html" "status/stig-$arch.html"
+            cp "out/sbom/sbom-$arch.spdx.json" "status/sbom-$arch.spdx.json"
+          done
+          echo "status of $IMAGE:$release refreshed"
+
+      - name: Upload Status Record
+        if: steps.changed.outputs.changed == 'false'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: status-${{ matrix.image.family }}
+          path: status
+          if-no-files-found: ignore
+          retention-days: 7
+
       # Last step: the tags appear only on a published, signed, attested and verified digest
       - name: Tag
         if: steps.changed.outputs.changed == 'true'
