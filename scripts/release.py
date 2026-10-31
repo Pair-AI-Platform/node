@@ -9,13 +9,20 @@
     scripts/release.py notes <record.json>
         Prints the release notes of one image as Markdown.
 
-    scripts/release.py pages <record.json> <site-dir>
-        Writes the status of one image into the GitHub Pages site: status/<family>.json and the
-        shields.io endpoint badges badges/<family>-{stig,vulns,sbom,size,release}.json.
+    scripts/release.py pages <record-dir> <site-dir>
+        Writes the status of one image into the GitHub Pages site, from the release record and the
+        SBOMs and OpenSCAP reports next to it:
+          images/<family>.html          the image page: vulnerabilities, SBOM per architecture, OpenSCAP
+          archive/<family>/<release>/   the same evidence for every release, kept after the image is deleted
+          sbom/<family>/sbom-<arch>.spdx.json, reports/<family>/stig-<arch>.html
+          status/<family>.json and the shields.io endpoint badges
+          badges/<family>-{stig,vulns,sbom,size,release}.json
 """
+import html
 import json
 import os
 import pathlib
+import shutil
 import sys
 
 ARCHES = ["x86_64", "aarch64"]
@@ -100,7 +107,7 @@ def notes(rec):
     out += ["", "Main components: " + ", ".join(f"`{p}`" for p in rec["key_packages"]) + ".",
             "The SPDX SBOMs are attached to this release and to each image as signed attestations."]
     out += ["", "### Scans", "",
-            "| Architecture | STIG (applicable rules passed) | Not applicable | Vulnerabilities (C / H / M / L) |",
+            "| Architecture | Hardening profile, DISA GPOS SRG (applicable rules passed) | Not applicable | Vulnerabilities (C / H / M / L) |",
             "| :--- | :--- | :--- | :--- |"]
     for arch in ARCHES:
         stig = rec["scans"][arch]["stig"]
@@ -110,9 +117,18 @@ def notes(rec):
             f"| {stig['counts'].get('notapplicable', 0)} "
             f"| {vuln['Critical']} / {vuln['High']} / {vuln['Medium']} / {vuln['Low']} |"
         )
+    findings = merged_findings(rec)
+    out += ["", "### Vulnerabilities", ""]
+    if not findings:
+        out.append("None found.")
+    else:
+        out += ["| ID | Severity | Package | Installed | Fixed in | Architectures |",
+                "| :--- | :--- | :--- | :--- | :--- | :--- |"]
+        out += [f"| [{f['id']}]({f['url']}) | {f['severity']} | `{f['package']}` | {f['version']} "
+                f"| {', '.join(f['fixed_in']) or 'not fixed yet'} | {', '.join(f['arches'])} |" for f in findings]
     failed = rec["scans"]["x86_64"]["stig"]["failed"]
     if failed:
-        out += ["", "STIG rules not passed (x86_64):", ""]
+        out += ["", "Hardening-profile rules not passed (x86_64):", ""]
         out += [f"- `{f['rule']}`: {f['title']}" for f in failed]
     out += [
         "",
@@ -128,6 +144,31 @@ def notes(rec):
     return "\n".join(out) + "\n"
 
 
+def merged_findings(rec):
+    """The vulnerability findings of both architectures, one row per ID and package."""
+    merged = {}
+    for arch in ARCHES:
+        for f in rec["scans"][arch]["vulnerabilities"].get("findings", []):
+            key = (f["id"], f["package"], f["version"])
+            merged.setdefault(key, {**f, "arches": []})["arches"].append(arch)
+    rank = {s: i for i, s in enumerate(SEVERITIES)}
+    return sorted(merged.values(), key=lambda f: (rank.get(f["severity"], 99), f["id"], f["package"]))
+
+
+def sbom_packages(path):
+    """The apk packages of an apko SPDX SBOM: name, version and declared license, once each."""
+    packages = {}
+    for p in json.loads(pathlib.Path(path).read_text()).get("packages", []):
+        refs = [r.get("referenceLocator", "") for r in p.get("externalRefs", [])]
+        if not any(r.startswith("pkg:apk/") for r in refs):
+            continue
+        key = (p["name"], p.get("versionInfo", ""))
+        license_ = p.get("licenseDeclared") or "NOASSERTION"
+        if key not in packages or packages[key] == "NOASSERTION":
+            packages[key] = license_
+    return [(n, v, l) for (n, v), l in sorted(packages.items())]
+
+
 def mb(size):
     return f"{size / 1048576:.1f} MB"
 
@@ -136,11 +177,86 @@ def badge(label, message, color):
     return {"schemaVersion": 1, "label": label, "message": message, "color": color}
 
 
-def pages(rec, site):
-    site = pathlib.Path(site)
+PAGE_STYLE = """
+body{font-family:system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#1f2328}
+h1{font-size:1.6rem}h2{margin-top:2rem;border-bottom:1px solid #d0d7de;padding-bottom:.3rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin:.5rem 0}
+th,td{border:1px solid #d0d7de;padding:.35rem .6rem;text-align:left;vertical-align:top}
+th{background:#f6f8fa}code{font-size:.85rem}.Critical,.High{color:#cf222e;font-weight:600}
+.Medium{color:#9a6700;font-weight:600}.muted{color:#656d76}
+"""
+
+
+def page(rec, record_dir, site):
+    family, e = rec["family"], html.escape
+    rows = []
+    rows.append(f"<h1>{e(rec['image'])}:{e(rec['release'])}</h1>")
+    rows.append(f"<p>Node.js {e(rec['node'])} ({e(rec['flavor'])}). Tags: "
+                + ", ".join(f"<code>{e(t)}</code>" for t in [rec['release']] + rec['floating'])
+                + f". Index digest <code>{e(rec['digest'])}</code>.</p>")
+    rows.append('<p><a href="#vulnerabilities">Vulnerabilities</a> · <a href="#sbom">SBOM</a> · '
+                '<a href="#stig">Hardening profile</a></p>')
+    findings = merged_findings(rec)
+    counts = {s: sum(1 for f in findings if f["severity"] == s) for s in SEVERITIES}
+    rows.append('<h2 id="vulnerabilities">Vulnerabilities</h2>')
+    rows.append("<p>" + " · ".join(f"{s}: {n}" for s, n in counts.items() if n) if findings else "<p>None found.")
+    rows.append(' <span class="muted">(Grype; a fixed version is picked up by the next daily rebuild)</span></p>')
+    if findings:
+        rows.append("<table><tr><th>ID</th><th>Severity</th><th>Package</th><th>Installed</th>"
+                    "<th>Fixed in</th><th>Architectures</th></tr>")
+        for f in findings:
+            rows.append(f'<tr><td><a href="{e(f["url"])}">{e(f["id"])}</a></td>'
+                        f'<td class="{e(f["severity"])}">{e(f["severity"])}</td><td><code>{e(f["package"])}</code></td>'
+                        f'<td>{e(f["version"])}</td><td>{e(", ".join(f["fixed_in"]) or "not fixed yet")}</td>'
+                        f'<td>{e(", ".join(f["arches"]))}</td></tr>')
+        rows.append("</table>")
+    rows.append('<h2 id="sbom">SBOM</h2><p>One SPDX SBOM per architecture, also attached to the image as a '
+                'signed attestation.</p>')
+    for arch in ARCHES:
+        packages = sbom_packages(pathlib.Path(record_dir) / f"sbom-{arch}.spdx.json")
+        size = rec["scans"][arch]["size"]
+        rows.append(f'<h3 id="sbom-{arch}">{arch}: {len(packages)} packages</h3>')
+        rows.append(f'<p><a href="../sbom/{e(family)}/sbom-{arch}.spdx.json">Download sbom-{arch}.spdx.json</a> · '
+                    f'{mb(size["compressed"])} compressed, {mb(size["installed"])} installed</p>')
+        rows.append("<table><tr><th>Package</th><th>Version</th><th>License</th></tr>")
+        rows += [f"<tr><td><code>{e(n)}</code></td><td>{e(v)}</td><td>{e(l)}</td></tr>" for n, v, l in packages]
+        rows.append("</table>")
+    rows.append('<h2 id="stig">Hardening profile (OpenSCAP, DISA GPOS SRG)</h2>'
+                '<p class="muted">Derived from the DISA General Purpose Operating System SRG; not an official '
+                'DISA STIG for containers.</p><table><tr><th>Architecture</th><th>Passed / applicable</th>'
+                '<th>Not applicable</th><th>Report</th></tr>')
+    for arch in ARCHES:
+        st = rec["scans"][arch]["stig"]
+        rows.append(f"<tr><td>{arch}</td><td>{st['counts'].get('pass', 0)} / {st['applicable']} ({st['score']}%)</td>"
+                    f"<td>{st['counts'].get('notapplicable', 0)}</td>"
+                    f'<td><a href="../reports/{e(family)}/stig-{arch}.html">OpenSCAP report</a></td></tr>')
+    rows.append("</table>")
+    title = f"node:{family}"
+    return (f"<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+            f"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            f"<title>{e(title)}</title><style>{PAGE_STYLE}</style></head><body>"
+            + "\n".join(rows) + "</body></html>\n")
+
+
+def pages(record_dir, site):
+    record_dir, site = pathlib.Path(record_dir), pathlib.Path(site)
+    rec = json.loads((record_dir / "record.json").read_text())
     family = rec["family"]
-    for d in ("status", "badges"):
+    for d in ("status", "badges", "images", f"sbom/{family}", f"reports/{family}"):
         (site / d).mkdir(parents=True, exist_ok=True)
+    for arch in ARCHES:
+        shutil.copy(record_dir / f"sbom-{arch}.spdx.json", site / "sbom" / family / f"sbom-{arch}.spdx.json")
+        shutil.copy(record_dir / f"stig-{arch}.html", site / "reports" / family / f"stig-{arch}.html")
+    (site / "images" / f"{family}.html").write_text(page(rec, record_dir, site))
+    # Evidence archive: kept after the image itself is deleted by the five-version retention
+    archive = site / "archive" / family / rec["release"]
+    archive.mkdir(parents=True, exist_ok=True)
+    for f in ["record.json", "notes.md"] + [f"sbom-{a}.spdx.json" for a in ARCHES] + [f"stig-{a}.html" for a in ARCHES]:
+        if (record_dir / f).exists():
+            shutil.copy(record_dir / f, archive / f)
+    # The archived page links the archived copies next to it
+    (archive / "index.html").write_text(page(rec, record_dir, site).replace(f"../sbom/{family}/", "").replace(
+        f"../reports/{family}/", ""))
     stig = rec["scans"]["x86_64"]["stig"]
     vulns = {
         s: max(rec["scans"][a]["vulnerabilities"]["counts"].get(s, 0) for a in ARCHES)
@@ -161,14 +277,15 @@ def pages(rec, site):
     score = stig["score"]
     color = "brightgreen" if score >= 90 else "yellow" if score >= 75 else "red"
     (site / "badges" / f"{family}-stig.json").write_text(json.dumps(badge(
-        "STIG", f"{stig['counts'].get('pass', 0)}/{stig['applicable']} ({score}%)", color)))
+        "GPOS SRG", f"{stig['counts'].get('pass', 0)}/{stig['applicable']} ({score}%)", color)))
     serious = vulns["Critical"] + vulns["High"]
     color = "brightgreen" if serious == 0 and vulns["Medium"] == 0 else "yellow" if serious == 0 else "red"
     (site / "badges" / f"{family}-vulns.json").write_text(json.dumps(badge(
         "CVEs", f"C{vulns['Critical']} H{vulns['High']} M{vulns['Medium']} L{vulns['Low']}", color)))
-    x86 = rec["scans"]["x86_64"]
+    sbom = " / ".join(str(rec["scans"][a]["sbom"]["packages"]) for a in ARCHES)
     (site / "badges" / f"{family}-sbom.json").write_text(json.dumps(badge(
-        "SBOM", f"{x86['sbom']['packages']} packages", "blue")))
+        "SBOM", f"{sbom} packages (amd64 / arm64)", "blue")))
+    x86 = rec["scans"]["x86_64"]
     (site / "badges" / f"{family}-size.json").write_text(json.dumps(badge(
         "size", mb(x86["size"]["compressed"]), "blue")))
     (site / "badges" / f"{family}-release.json").write_text(json.dumps(badge(
@@ -182,6 +299,6 @@ if __name__ == "__main__":
     elif command == "notes":
         print(notes(json.loads(pathlib.Path(sys.argv[2]).read_text())), end="")
     elif command == "pages":
-        pages(json.loads(pathlib.Path(sys.argv[2]).read_text()), sys.argv[3])
+        pages(sys.argv[2], sys.argv[3])
     else:
         sys.exit(f"unknown command {command}")

@@ -12,7 +12,7 @@ import re
 import sys
 
 # The runtime and dev images of this major also get `latest` and `latest-dev`
-LATEST_MAJOR = "24"
+LATEST_MAJOR = "26"
 
 image = sys.argv[1]
 entries = []

@@ -4,8 +4,9 @@
 #   scripts/vuln-scan.sh <image-ref> <out-dir>
 #
 # <image-ref> must be available to the local Docker daemon. Writes <out-dir>/grype.json and
-# <out-dir>/summary.json with the number of findings per severity, and how many of them already
-# have a fixed version in Wolfi (those disappear with the next rebuild).
+# <out-dir>/summary.json with the number of findings per severity, how many of them already have a
+# fixed version in Wolfi (those disappear with the next rebuild), and every finding: the CVE or
+# advisory ID with its link, its severity, the affected package and version, and the fixed version.
 set -euo pipefail
 
 image="$1"
@@ -28,7 +29,30 @@ for m in matches:
     counts[sev] = counts.get(sev, 0) + 1
     if m["vulnerability"].get("fix", {}).get("state") == "fixed":
         fixable[sev] = fixable.get(sev, 0) + 1
-summary = {"scanner": "grype", "total": len(matches), "counts": counts, "fixable": fixable}
+def advisory_url(v):
+    # Neutral, public sources: NVD for CVEs, the GitHub Advisory Database for GHSAs
+    vid = v["id"]
+    if vid.startswith("CVE-"):
+        return f"https://nvd.nist.gov/vuln/detail/{vid}"
+    if vid.startswith("GHSA-"):
+        return f"https://github.com/advisories/{vid}"
+    return v.get("dataSource", "")
+
+findings = []
+for m in matches:
+    v, a = m["vulnerability"], m["artifact"]
+    findings.append({
+        "id": v["id"],
+        "severity": v.get("severity", "Unknown"),
+        "package": a["name"],
+        "version": a["version"],
+        "fixed_in": v.get("fix", {}).get("versions", []),
+        "url": advisory_url(v),
+    })
+rank = {s: i for i, s in enumerate(order)}
+findings.sort(key=lambda f: (rank.get(f["severity"], len(order)), f["id"], f["package"]))
+summary = {"scanner": "grype", "total": len(matches), "counts": counts, "fixable": fixable,
+           "findings": findings}
 json.dump(summary, open(sys.argv[2], "w"), indent=2)
-print(json.dumps(summary))
+print(json.dumps({k: summary[k] for k in ("total", "counts", "fixable")}))
 PY

@@ -278,7 +278,7 @@ jobs:
 
       - name: Tags
         id: tags
-        if: steps.changed.outputs.changed == 'true'
+        if: steps.tested.outputs.ok == 'true'
         run: |
           node="$(jq -r .node "results/results-$FAMILY-x86_64/image.json")"
           minor="${node%.*}"
@@ -289,6 +289,21 @@ jobs:
           echo "release=$release" >> "$GITHUB_OUTPUT"
           echo "floating=$floating" >> "$GITHUB_OUTPUT"
           echo "release tag $release, floating tags $floating"
+
+      # Unchanged image: no new release, but the floating tags must still point to it. This moves
+      # `latest` when LATEST_MAJOR changes, and repairs a floating tag that an interrupted run missed.
+      - name: Sync Floating Tags
+        if: steps.changed.outputs.changed == 'false'
+        env:
+          CURRENT: ${{ steps.changed.outputs.current }}
+          FLOATING: ${{ steps.tags.outputs.floating }}
+        run: |
+          for tag in $FLOATING; do
+            if [ "$(oras resolve "$IMAGE:$tag" 2>/dev/null || true)" != "$CURRENT" ]; then
+              echo "moving $tag to $CURRENT"
+              oras tag "$IMAGE@$CURRENT" "$tag"
+            fi
+          done
 
       - name: Push by Digest
         if: steps.changed.outputs.changed == 'true'

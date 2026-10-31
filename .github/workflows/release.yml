@@ -126,10 +126,7 @@ jobs:
         run: |
           mkdir -p site
           for dir in records/release-*; do
-            family="$(jq -r .family "$dir/record.json")"
-            python3 scripts/release.py pages "$dir/record.json" site
-            mkdir -p "site/reports/$family"
-            cp "$dir/stig-x86_64.html" "$dir/stig-aarch64.html" "site/reports/$family/"
+            python3 scripts/release.py pages "$dir" site
           done
 
       - name: Publish Status Pages
