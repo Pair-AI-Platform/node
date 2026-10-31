@@ -1,0 +1,79 @@
+{
+  "family": "24-dev",
+  "release": "24.22.1-dev-20261031.2",
+  "node": "24.22.1",
+  "digest": "sha256:68a1c73d77012e25851afe3ab1f1562fd4b79c5dbe3b72a3d85e974e9a3bd3a2",
+  "stig": {
+    "x86_64": {
+      "counts": {
+        "notapplicable": 107,
+        "fail": 6,
+        "pass": 85
+      },
+      "applicable": 91,
+      "score": 93.4
+    },
+    "aarch64": {
+      "counts": {
+        "notapplicable": 107,
+        "fail": 6,
+        "pass": 85
+      },
+      "applicable": 91,
+      "score": 93.4
+    }
+  },
+  "vulnerabilities": {
+    "x86_64": {
+      "Critical": 0,
+      "High": 3,
+      "Medium": 3,
+      "Low": 1,
+      "Negligible": 0,
+      "Unknown": 0
+    },
+    "aarch64": {
+      "Critical": 0,
+      "High": 3,
+      "Medium": 3,
+      "Low": 1,
+      "Negligible": 0,
+      "Unknown": 0
+    }
+  },
+  "sbom": {
+    "x86_64": {
+      "packages": 79,
+      "spdx_packages": 525
+    },
+    "aarch64": {
+      "packages": 79,
+      "spdx_packages": 525
+    }
+  },
+  "size": {
+    "x86_64": {
+      "compressed": 286880741,
+      "installed": 770653622
+    },
+    "aarch64": {
+      "compressed": 270217452,
+      "installed": 820783469
+    }
+  },
+  "key_packages": [
+    "ca-certificates-bundle 20261020-r0",
+    "glibc-2.44 2.44-r11",
+    "glibc-2.44-dev 2.44-r11",
+    "libicu78 78.3-r4",
+    "libstdc++ 16.2.0-r2",
+    "libstdc++-dev 16.2.0-r2",
+    "libuv 1.53.0-r0",
+    "nodejs-24 24.22.1-r2",
+    "npm-12 12.2.1-r1",
+    "openssl-4.0-libcrypto 4.0.3-r8",
+    "openssl-4.0-libssl 4.0.3-r8",
+    "pnpm-11.8 11.8.0-r5",
+    "yarn 1.22.22-r8"
+  ]
+}
