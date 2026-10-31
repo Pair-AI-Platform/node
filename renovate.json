@@ -35,7 +35,7 @@
         "/^scripts/[^/]+\\.sh$/"
       ],
       "matchStrings": [
-        "(?<depName>(?:cgr\\.dev|ghcr\\.io|docker\\.io)?/?[a-z0-9._/-]+):(?<currentValue>[\\w.-]+)@(?<currentDigest>sha256:[a-f0-9]{64})"
+        "(?<depName>[a-z0-9][a-z0-9._-]*(?:/[a-z0-9][a-z0-9._-]*)+):(?<currentValue>[\\w.-]+)@(?<currentDigest>sha256:[a-f0-9]{64})"
       ],
       "datasourceTemplate": "docker"
     },
