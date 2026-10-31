@@ -15,6 +15,22 @@ Every image is rebuilt daily and published again only when its content changed. 
 These images ship Node.js and nothing more. The cryptography profile (for example FIPS 140-3) is
 chosen per application and per contract, and is provided separately: see [Cryptography](#cryptography).
 
+## Alignment at a glance
+
+| Area | Aligned with | Evidence in every release |
+| :--- | :--- | :--- |
+| **Hardening (STIG)** | STIG profile based on the DISA General Purpose Operating System SRG, scanned with OpenSCAP | Rules passed out of the applicable ones (about 93% on `node:22`), the full report, a signed attestation; see [Security scans](#security-scans) |
+| **🇸🇦 Saudi Arabia** | NCA ECC-2:2024 1-6-2-2, 1-6-3-2, 1-6-3-5, 2-1, 2-2-3-3, 2-10-3 · NCA CCC-2:2024 2-3-P-1-3, 2-3-P-1-7, 2-9-T-1-1, 4-1-P-1-2 · NCA CSCC-1:2019 2-3-1-1, 2-3-1-7 · SAMA CSF 3.3.8, 3.3.17 | Minimal non-root baseline, STIG and vulnerability results, SBOM, signatures, provenance |
+| **🇰🇼 Kuwait** | CBK CORF 5.3.1.2–5.3.1.5 (hardening against recognized benchmarks), 5.8.1.3 (SBOM), 5.13 (vulnerability and patch management) · NCSC NBCC PR-1, ID-2 | Same, plus daily rebuilds |
+| **🇦🇪 UAE** | UAE IA Regulation T3.2.1, T5.5.4, T7.5.1, T7.7.1, T7.8.1 | Same; the scans use the SCAP formats (XCCDF, OVAL, CVE, CVSS) T7.7 names |
+| **🇧🇭 Bahrain · 🇴🇲 Oman** | CBB OM-5.5.18, OM-5.5.25, OM-5.5.27, Appendix C · ITA Basic Security Controls 5.5, 5.6, 5.8 | Same |
+| **🔐 Cryptography** | FIPS 140-3, CMVP #4985 (security policy §11.1) · 🇸🇦 NCA NCS-1:2020 MODERATE §2.1.2, §2.2, §2.3, §3.1–§3.3, §3.6.2, §3.8, §4.2, §5.1 · NCA ECC-2:2024 2-8-3 · NCA DCC-1:2022 2-5-1-2 · SAMA CSF 3.3.9 · 🇰🇼 CBK CORF 5.3.1.3(i), 5.7.1.3, 8.1.4.5 · 🇶🇦 Qatar National Cryptographic Standard v1.0 Tables 1, 2, 4, 5, 7, 10 · 🇦🇪 UAE IA Regulation T7.4.1 · 🇧🇭 CBB OM Appendix C (Data Security 1–2) | Provided by **[khatm](https://github.com/Pair-AI-Platform/khatm)** when the application or contract requires it, with its clause-by-clause mapping and the tests behind each setting |
+
+The images give the technical controls and the evidence for them; running them, the scanning
+cadence, change approval, key management and hardware key storage stay with the operator. The
+clause-by-clause table, with links to every document, is in
+[Gulf cybersecurity rules at the container level](#gulf-cybersecurity-rules-at-the-container-level).
+
 ## Images
 
 `ghcr.io/pair-ai-platform/node:<tag>`. The numbers come from the newest release of each image
