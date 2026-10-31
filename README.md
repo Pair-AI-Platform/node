@@ -109,8 +109,8 @@ Every run takes each image through these steps; a version exists for users only 
   changed, not on every daily build, so five versions cover several weeks.
 - **The evidence outlives the image.** For every version ever published, these stay available after
   the image itself is deleted:
-  - [`archive/<image>/<release>/`](https://pair-ai-platform.github.io/node/archive/) on GitHub Pages
-    keeps the release record (digest, packages, changes), both SBOMs, the OpenSCAP reports, the
+  - `https://pair-ai-platform.github.io/node/archive/<image>/<release>/` (for example
+    `archive/22/22.23.2-20261031.2/`) keeps the release record (digest, packages, changes), both SBOMs, the OpenSCAP reports, the
     vulnerability findings and the notes;
   - the Sigstore transparency log (Rekor) permanently records every signature and attestation.
 
