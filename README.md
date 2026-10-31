@@ -23,9 +23,10 @@ chosen per application and per contract, and is provided separately: see [Crypto
 | **Hardening** | OpenSCAP profile derived from the DISA General Purpose Operating System SRG (not an official DISA STIG for containers) | Rules passed out of the applicable ones (about 93% on `node:22`), the full report, a signed attestation; see [Security scans](#security-scans) |
 | **🇸🇦 Saudi Arabia** | NCA ECC-2:2024 1-6-2-2, 1-6-3-2, 1-6-3-5, 2-1, 2-2-3-3, 2-10-3 · NCA CCC-2:2024 2-3-P-1-3, 2-3-P-1-7, 2-9-T-1-1, 4-1-P-1-2 · NCA CSCC-1:2019 2-3-1-1, 2-3-1-7 · SAMA CSF 3.3.8, 3.3.17 | Minimal non-root baseline, STIG and vulnerability results, SBOM, signatures, provenance |
 | **🇰🇼 Kuwait** | CBK CORF 5.3.1.2–5.3.1.5 (hardening against recognized benchmarks), 5.8.1.3 (SBOM), 5.13 (vulnerability and patch management) · NCSC NBCC PR-1, ID-2 | Same, plus daily rebuilds |
-| **🇦🇪 UAE** | UAE IA Regulation T3.2.1, T5.5.4, T7.5.1, T7.7.1, T7.8.1 | Same; the scans use the SCAP formats (XCCDF, OVAL, CVE, CVSS) T7.7 names |
+| **🇦🇪 UAE** | UAE IA Regulation v1.1 T3.2.1, T5.5.4, T7.5.1, T7.7.1, T7.8.1 (superseded by the IA Standard v2.x, 2025; mapping to v2 follows) | Same; the scans use the SCAP formats (XCCDF, OVAL, CVE, CVSS) T7.7 names |
+| **🇶🇦 Qatar** | NCSA National Vulnerability Management Guidelines v1.0 (Jan 2026) §6.5 (3–7 days for actively exploited, 14–30 days for CVSS ≥ 7.0), §6.8(b) | Hourly check for fixes, vulnerabilities per release |
 | **🇧🇭 Bahrain · 🇴🇲 Oman** | CBB OM-5.5.18, OM-5.5.25, OM-5.5.27, Appendix C · ITA Basic Security Controls 5.5, 5.6, 5.8 | Same |
-| **🔐 Cryptography** | FIPS 140-3, CMVP #4985 (security policy §11.1) · 🇸🇦 NCA NCS-1:2020 MODERATE §2.1.2, §2.2, §2.3, §3.1–§3.3, §3.6.2, §3.8, §4.2, §5.1 · NCA ECC-2:2024 2-8-3 · NCA DCC-1:2022 2-5-1-2 · SAMA CSF 3.3.9 · 🇰🇼 CBK CORF 5.3.1.3(i), 5.7.1.3, 8.1.4.5 · 🇶🇦 Qatar National Cryptographic Standard v1.0 Tables 1, 2, 4, 5, 7, 10 · 🇦🇪 UAE IA Regulation T7.4.1 · 🇧🇭 CBB OM Appendix C (Data Security 1–2) | Provided by **[khatm](https://github.com/Pair-AI-Platform/khatm)** when the application or contract requires it, with its clause-by-clause mapping and the tests behind each setting |
+| **🔐 Cryptography** | FIPS 140-3, CMVP #4985 (security policy §11.1) · 🇸🇦 NCA NCS-1:2020 MODERATE (the published standard; the NCS-2:2025 draft is tracked in khatm's NCS-2 readiness table) §2.1.2, §2.2, §2.3, §3.1–§3.3, §3.6.2, §3.8, §4.2, §5.1 · NCA ECC-2:2024 2-8-3 · NCA DCC-1:2022 2-5-1-2 · SAMA CSF 3.3.9 · 🇰🇼 CBK CORF 5.3.1.3(i), 5.7.1.3, 8.1.4.5, and post-quantum readiness 7.1.4.1, 7.1.4.3 · 🇶🇦 Qatar National Cryptographic Standard v1.0 Tables 1, 2, 4, 5, 7, 10 · 🇦🇪 UAE IA Regulation v1.1 T7.4.1 · 🇧🇭 CBB OM Appendix C (Data Security 1–2) | Provided by **[khatm](https://github.com/Pair-AI-Platform/khatm)** when the application or contract requires it, with its clause-by-clause mapping and the tests behind each setting |
 
 The images give the technical controls and the evidence for them; running them, the scanning
 cadence, change approval, key management and hardware key storage stay with the operator. The
@@ -104,8 +105,8 @@ Every run takes each image through these steps; a version exists for users only 
 | 7. Keep five | The five newest versions of each image stay, in GHCR and as GitHub releases | Never fails a release; runs again next time |
 
 - **Only changed images are published.** The builds are reproducible: the same packages give the
-  same digest. The daily rebuild publishes an image only when Wolfi shipped a new version of
-  something inside it, or the image definition changed.
+  same digest. An hourly check starts a build as soon as Wolfi ships a new version of something
+  inside an image, and the build publishes only the images whose digest changed.
 - **Release tags never move and never point to an image without its evidence.** Floating tags
   always point to a kept, signed version.
 - **Retention: five versions per image.** GHCR and the GitHub releases keep the five newest versions
@@ -120,6 +121,11 @@ Every run takes each image through these steps; a version exists for users only 
 
   Together they show what any image digest contained on any date. To keep the images themselves
   longer, mirror them into your own registry with their referrers (`oras cp -r`).
+- **In-country registries.** GHCR is hosted outside the GCC. Regulated deployments (for example
+  under CBK CORF 7.2.1.2 or CBUAE outsourcing rules) can mirror each image with its signatures, SBOMs
+  and attestations into a registry inside the country: `oras cp -r ghcr.io/pair-ai-platform/node:22
+  <registry>/node:22`. The signatures are Sigstore bundles that carry their transparency-log entries,
+  so they still verify against the mirrored copy.
 - **Every release says what changed**: the packages added, removed or updated since the previous
   version, with the SBOM package count, the size, the main components and the scan results on both
   architectures.
@@ -217,8 +223,16 @@ oras discover --format tree "$IMAGE"
 
 ## Cryptography
 
-The Node.js 24 and 26 images use the OpenSSL that Wolfi ships, with its default settings; Node.js 22
-uses the OpenSSL built into the official binary ([details](docs/NODE-SOURCES.md)). Which
+The Node.js 24 and 26 images use the OpenSSL that Wolfi ships (4.0), with its default settings;
+Node.js 22 uses the OpenSSL built into the official binary (3.5.x) ([details](docs/NODE-SOURCES.md)).
+
+**Post-quantum key exchange.** With their default settings, Node.js 24 and 26 negotiate the hybrid
+group `X25519MLKEM768` (ML-KEM-768, FIPS 203, combined with X25519) in TLS 1.3, and their `crypto`
+module offers ML-KEM and ML-DSA. Every release tests this. This is in line with CBK CORF §7.1.4.1
+(start adopting quantum-resistant algorithms) and with the hybrid mode in the NCA NCS-2:2025 draft
+(2-5-5-1, 2-5-5-2). It is not available in `node:22`, and it is turned off by a FIPS profile, because
+no FIPS-validated module contains ML-KEM yet.
+ Which
 cryptography profile an application needs depends on the software and on the contract: none, or
 FIPS 140-3 with a profile aligned with a national standard. That profile is not built into these
 images. It comes from **[khatm](https://github.com/Pair-AI-Platform/khatm)**, which provides:
@@ -232,7 +246,7 @@ images. It comes from **[khatm](https://github.com/Pair-AI-Platform/khatm)**, wh
 
 ## Gulf cybersecurity rules at the container level
 
-*Checked on 31 October 2026 against the primary text, unless a row says **secondary**. This is
+*Checked on 31 October 2026 against the current version of each document, in its primary text unless a row says **secondary**. This is
 technical information, not legal advice.*
 
 None of these documents mentions containers, container images, STIG or SCAP by name. Their
@@ -248,7 +262,7 @@ Running the images, keeping the scanning cadence and approving changes stay with
 closest references are in two documents:
 
 - **Kuwait CBK CORF 5.3.1.2** names the CIS benchmarks.
-- **The UAE IA Regulation (T7.7)** names the SCAP formats (XCCDF, OVAL, CVE, CVSS) that OpenSCAP
+- **The UAE IA Regulation v1.1 (T7.7)** names the SCAP formats (XCCDF, OVAL, CVE, CVSS) that OpenSCAP
   and Grype produce.
 
 ### Saudi Arabia 🇸🇦
@@ -279,13 +293,14 @@ closest references are in two documents:
 | | 5.3.1.4, 5.3.1.5 | Quarterly checks against configuration standards; testing before go-live | OpenSCAP results per release | Quarterly checks of running systems |
 | | 5.8.1.3 | "all software … accompanied by an up-to-date Software Bill of Materials (SBOM)" | SPDX SBOM per architecture, signed | SBOMs for the application layers added on top |
 | | 5.13.1.2, 5.13.2.2–5.13.2.4 | Assessments for missing updates and baselines; risk-based patching; emergency patches immediately | Daily rebuilds, results per release | Patching schedule, exception register |
+| | 7.2.1.2(d), 7.2.1.3 | Data residency for outsourced and cloud services; CBK approval one month before cloud outsourcing that involves sensitive data | Images, signatures and attestations can be mirrored into an in-country registry (see [Verify](#verify)) | Choosing the registry and obtaining the approval |
 | [NCSC NBCC](https://github.com/SiteQ8/Kuwait-NBCC) (Decision 2/2026, **secondary**) | PR-1, PR-1.2, ID-2 | Hardened baselines, monthly or quarterly scans, monthly patches, list of authorized software | Hardened images, scans, SBOM | Cadence and the authorized-software list |
 
 ### United Arab Emirates 🇦🇪
 
 | Document | Clause | Requirement | What the images provide | Stays with the operator |
 | :--- | :--- | :--- | :--- | :--- |
-| [UAE IA Regulation v1.1](https://web.archive.org/web/2025/https://u.ae/-/media/guidelines/Guidelines-2020/UAE-IA-Regulation-v11-1.pdf) (TDRA) | T3.2.1 | "define minimum security configurations"; guidance: build standard images and watch for deviations | Standard hardened images with OpenSCAP results | Drift monitoring |
+| [UAE IA Regulation v1.1](https://web.archive.org/web/2025/https://u.ae/-/media/guidelines/Guidelines-2020/UAE-IA-Regulation-v11-1.pdf) (TDRA, 2020; **superseded** by the UAE IA Standard v2.x of the UAE Cyber Security Council, 2025, whose official text is not public; mapping to v2 follows) | T3.2.1 | "define minimum security configurations"; guidance: build standard images and watch for deviations | Standard hardened images with OpenSCAP results | Drift monitoring |
 | | T5.2.2, T5.5.4 | Restrict privileges and utility programs | Non-root; no shell or package manager in runtime images | Runtime privileges |
 | | T7.5.1 | "operational systems should only hold approved executable code, and not development code or compilers" | Separate runtime and development images | Deploying only runtime images |
 | | T7.7.1 | Identify vulnerabilities before production, with tools based on CVE, CCE, OVAL, CPE, CVSS, XCCDF | Grype (CVE, CVSS) and OpenSCAP (XCCDF, OVAL) on every build | Remediation plan and timeline |
@@ -295,15 +310,23 @@ closest references are in two documents:
 
 | Document | Clause | Requirement | What the images provide | Stays with the operator |
 | :--- | :--- | :--- | :--- | :--- |
-| [CBB Rulebook Vol. 1, OM](https://cbben.thomsonreuters.com/sites/default/files/net_file_store/Vol_1_OM_April_2023.pdf) | OM-5.5.18 (d),(h) | Security testing at development and after deployment; list of whitelisted applications and components | Build-time scans; SBOM as component list | Post-deployment testing |
+| [CBB Rulebook Vol. 1, OM](https://cbben.thomsonreuters.com/sites/default/files/net_file_store/Vol_1_OM_April_2023.pdf) (module realigned May 2026, OM-5.5 wording unchanged) | OM-5.5.18 (d),(h) | Security testing at development and after deployment; list of whitelisted applications and components | Build-time scans; SBOM as component list | Post-deployment testing |
 | | OM-5.5.25, OM-5.5.27 | Monthly (internal) or weekly (external) assessments; patches in risk-based timeframes | Results per release; daily rebuilds | Cadence and timeframes |
 | | Appendix C | Integrity checking of software; baseline configuration with least functionality; quarterly scans | Signatures; minimal baseline; scans | Change control |
 | [ITA Basic Security Controls v1.0](https://www.moheri.gov.om/userupload/Policy/Basic%20Security%20Controls%20Guidelines.pdf) (Oman, 2017) | 5.5, CM.2–CM.8, 5.6, 5.8 | Baseline configurations, least functionality, component inventory, scheduled scanning, patch management | Hardened baseline, SBOM, scans, rebuilds | Schedules and change management |
 
+### Qatar 🇶🇦
+
+| Document | Clause | Requirement | What the images provide | Stays with the operator |
+| :--- | :--- | :--- | :--- | :--- |
+| NCSA – National Vulnerability Management Guidelines v1.0 ([NCSA document library](https://ncsa.gov.qa/)) (IAG-NAT-VMG, January 2026; the document is marked as pending approval for public release) | §6.5 | Reference remediation times: "Within 3-7 Days" for external-facing, zero-day or actively exploited vulnerabilities; "14 - 30 Days" for security patches with CVSS ≥ 7.0 | Hourly check for Wolfi fixes; a fix is normally published within hours of reaching Wolfi; every release lists its vulnerabilities by severity | Redeploying within those windows |
+| | §6.8(b) | Active scanning of all critical assets | Scan per release, per architecture | Scanning running workloads |
+
 **Not verified in primary text:**
 - **Kuwait:** the official NBCC annex.
 - **UAE:** Dubai DESC ISR and the CBUAE rules (no public text).
-- **Qatar:** the NIA Policy and Standard (the sites were unreachable).
+- **Qatar:** the National Information Assurance Standard v2.1 (May 2023), which replaced the NIA Policy v2.0 (sites unreachable).
+- **UAE:** the UAE IA Standard v2.x text and its control numbers.
 - **Saudi:** NCA's software-supply-chain guidance, if it exists.
 
 ---
@@ -312,7 +335,7 @@ closest references are in two documents:
 
 | What | How |
 | :--- | :--- |
-| Packages inside the images (Node.js, OpenSSL, glibc, …) | Not pinned. The daily build takes the current Wolfi packages and publishes each image whose content changed |
+| Packages inside the images (Node.js 24 and 26, OpenSSL, glibc, npm, …) | Not pinned. Every hour, `wolfi-watch.yml` resolves which Wolfi versions each image would get; as soon as anything changed, it starts the release, which publishes each image whose content changed. A Wolfi fix reaches the images within about an hour; the daily build stays as a safety net |
 | apko, OpenSCAP and Grype images, oras, cosign, GitHub Actions | Pinned by digest or version. [Renovate](renovate.json) opens a pull request, which is automerged once the builds, tests and scans pass |
 | Node.js 22 (official nodejs.org binaries) | Renovate tracks the nodejs.org releases and the Node.js release keys; the pull request is automerged once the images pass ([details](docs/NODE-SOURCES.md)) |
 | A new Node.js line | Add `apko/nodejs-<major>.apko.yaml` and `-dev.apko.yaml` |
@@ -348,9 +371,11 @@ scripts/test-image.sh                 image tests
 scripts/stig-scan.sh                  OpenSCAP scan against the DISA GPOS SRG-derived profile
 scripts/vuln-scan.sh                  Grype scan
 scripts/release.py                    release records, notes and status badges
+scripts/wolfi-state.sh                the Wolfi package versions each image would get now
 .github/workflows/build.yml           reusable: build, test, scan, publish, sign, attest (SLSA L3)
 .github/workflows/pr.yml              checks for every pull request
 .github/workflows/release.yml         daily and on merge: publish, releases, badges, keep five
+.github/workflows/wolfi-watch.yml     hourly: starts a release as soon as Wolfi updates a package in the images
 .github/workflows/renovate.yml        self-hosted Renovate for this repository
 MAINTAINING.md                        repository settings
 ```

@@ -2,8 +2,8 @@
 
 | Image | Node.js package | Source | OpenSSL used by Node.js |
 | :--- | :--- | :--- | :--- |
-| `node:26`, `node:26-dev` | `nodejs-26` | Wolfi (`packages.wolfi.dev`) | Wolfi's system OpenSSL (`libssl.so.3`) |
-| `node:24`, `node:24-dev` | `nodejs-24` | Wolfi (`packages.wolfi.dev`) | Wolfi's system OpenSSL (`libssl.so.3`) |
+| `node:26`, `node:26-dev` | `nodejs-26` | Wolfi (`packages.wolfi.dev`) | Wolfi's system OpenSSL 4.0 (`libssl.so.4`) |
+| `node:24`, `node:24-dev` | `nodejs-24` | Wolfi (`packages.wolfi.dev`) | Wolfi's system OpenSSL 4.0 (`libssl.so.4`) |
 | `node:22`, `node:22-dev` | `nodejs-22-upstream` | Official binaries from [nodejs.org](https://nodejs.org/dist/), packaged here by melange | The OpenSSL built into the official binary (3.5.x) |
 
 ## Why Node.js 22 comes from nodejs.org
@@ -53,11 +53,27 @@ with their release notes, scans and evidence.
 ## What is different from the Wolfi images
 
 - **OpenSSL:** the official binary carries its own OpenSSL (3.5.x) and does not load the system
-  OpenSSL configuration the same way. A cryptography profile from
+  OpenSSL configuration the same way. It also does not offer the post-quantum TLS key exchange
+  that Node.js 24 and 26 use by default (see below). A cryptography profile from
   [khatm](https://github.com/Pair-AI-Platform/khatm), such as FIPS 140-3, therefore does not apply
   to `node:22`; it applies to the images that use Wolfi's Node.js (24, 26). Choose 24 or 26 when a
   contract needs such a profile.
 - **Vulnerability scans** still work: Grype identifies the Node.js version in the binary.
+
+## OpenSSL and post-quantum key exchange
+
+| Image | OpenSSL | Default TLS 1.3 key exchange | ML-KEM / ML-DSA in `crypto` |
+| :--- | :--- | :--- | :--- |
+| `node:24`, `node:26` | 4.0 (Wolfi) | `X25519MLKEM768` (hybrid post-quantum) | Yes |
+| `node:22` | 3.5.x (bundled) | Classical | No |
+
+Every release checks the first column: `scripts/test-image.sh` opens a TLS 1.3 connection between two
+Node.js processes and fails the release if Node.js 24 or later does not negotiate `X25519MLKEM768`.
+
+With a [khatm](https://github.com/Pair-AI-Platform/khatm) FIPS profile installed, Node.js 24 and 26
+run in FIPS mode (`crypto.getFips()` returns 1, MD5 is refused) and lose ML-KEM and ML-DSA, since the
+FIPS module (CMVP #4985) does not contain them. FIPS 140-3 and post-quantum key exchange cannot be
+had together until a FIPS module with ML-KEM is validated.
 
 ## If Wolfi moves another line
 

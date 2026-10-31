@@ -34,6 +34,33 @@ check "CA bundle matches its checksum stamp" node -e '
   const got = crypto.createHash("sha256").update(fs.readFileSync("/etc/ssl/certs/ca-certificates.crt")).digest("hex");
   process.exit(want === got ? 0 : 1)'
 
+# Post-quantum key exchange: a TLS 1.3 connection between two Node.js processes, with the image's
+# defaults. From Node.js 24 (Wolfi's OpenSSL 4) the hybrid group X25519MLKEM768 must be negotiated;
+# for older lines the result is only reported.
+major="$(node -p 'process.versions.node.split(".")[0]')"
+tlsdir="$(mktemp -d)"
+openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -nodes -keyout "$tlsdir/key.pem" \
+  -out "$tlsdir/cert.pem" -subj /CN=localhost -days 1 2>/dev/null
+cat > "$tlsdir/pq.js" <<'EOF'
+const tls = require("tls"), fs = require("fs");
+const server = tls.createServer({ key: fs.readFileSync("/t/key.pem"), cert: fs.readFileSync("/t/cert.pem") }, s => s.end());
+server.listen(8443, () => {
+  const c = tls.connect({ port: 8443, rejectUnauthorized: false }, () => {
+    console.log((c.getEphemeralKeyInfo() || {}).name || "not reported");
+    c.end(); server.close();
+  });
+});
+EOF
+chmod -R a+r "$tlsdir"
+group="$(docker run --rm -v "$tlsdir:/t:ro,z" "$image" /t/pq.js 2>&1 || true)"
+rm -rf "$tlsdir"
+if [ "$major" -ge 24 ]; then
+  if [ "$group" = X25519MLKEM768 ]; then pass "post-quantum hybrid key exchange by default ($group)"
+  else fail "post-quantum hybrid key exchange by default (got '$group')"; fi
+else
+  pass "TLS 1.3 key exchange reported as: $group"
+fi
+
 if [ "$flavor" = runtime ]; then
   # Distroless: no shell and no package manager
   check "no shell" node -e 'process.exit(["/bin/sh","/bin/bash","/usr/bin/sh","/usr/bin/bash"].some(p => require("fs").existsSync(p)) ? 1 : 0)'
