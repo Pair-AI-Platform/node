@@ -1,0 +1,91 @@
+# Node.js 22 from the official binaries published by the Node.js project on nodejs.org, packaged for
+# the images in apko/. Wolfi moved nodejs-22 to Chainguard's commercial repository on 2026-08-14
+# (wolfi-dev/os#231401), so the public Wolfi package stopped at 22.23.2 and no longer gets fixes; see
+# docs/NODE-SOURCES.md.
+#
+# The build downloads nothing it does not verify:
+#   - SHASUMS256.txt.asc is checked with gpgv against the Node.js release keys in
+#     nodejs-22-upstream/nodejs-release-keys.kbx (github.com/nodejs/release-keys,
+#     gpg-only-active-keys, at the commit below);
+#   - the checksums are taken from the signed content, and the tarball must match them.
+# Renovate updates the version from nodejs.org, and the release keys when the Node.js project
+# changes them (scripts/update-node-release-keys.sh refreshes the keyring for that commit).
+# renovate: datasource=git-refs depName=https://github.com/nodejs/release-keys currentValue=main
+# release-keys-commit: 481637f813e912c4aa3622d7964ab426c97b8e8d
+package:
+  name: nodejs-22-upstream
+  # renovate: datasource=node-version depName=node versioning=node
+  version: "22.23.4"
+  epoch: 0
+  description: "Node.js 22 LTS, official binaries from nodejs.org, signature and checksum verified"
+  url: https://nodejs.org
+  copyright:
+    - license: MIT
+  target-architecture:
+    - x86_64
+    - aarch64
+  dependencies:
+    provides:
+      - nodejs=${{package.full-version}}
+      - nodejs-22=${{package.full-version}}
+    provider-priority: 100
+
+environment:
+  contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    repositories:
+      - https://packages.wolfi.dev/os
+    packages:
+      - busybox
+      - ca-certificates-bundle
+      - curl
+      - gpgv
+      - xz
+
+pipeline:
+  - name: Download and verify
+    runs: |
+      case "${{build.arch}}" in
+        x86_64) arch=x64 ;;
+        aarch64) arch=arm64 ;;
+        *) echo "unsupported architecture ${{build.arch}}" >&2; exit 1 ;;
+      esac
+      base="https://nodejs.org/dist/v${{package.version}}"
+      tarball="node-v${{package.version}}-linux-$arch.tar.xz"
+      curl -fsSL --retry 3 -o SHASUMS256.txt.asc "$base/SHASUMS256.txt.asc"
+      curl -fsSL --retry 3 -o "$tarball" "$base/$tarball"
+      # The checksum list must be signed by a Node.js release key; only the signed content is used
+      gpgv --keyring ./nodejs-release-keys.kbx --output SHASUMS256.txt SHASUMS256.txt.asc
+      grep " $tarball\$" SHASUMS256.txt | sha256sum -c -
+      tar -xJf "$tarball"
+      echo "node-v${{package.version}}-linux-$arch" > dirname
+
+  # Only Node.js itself and its headers (for node-gyp); npm comes from its own package
+  - name: Install
+    runs: |
+      src="$(cat dirname)"
+      install -Dm755 "$src/bin/node" "${{targets.destdir}}/usr/bin/node"
+      mkdir -p "${{targets.destdir}}/usr/include"
+      cp -a "$src/include/node" "${{targets.destdir}}/usr/include/node"
+      install -Dm644 "$src/LICENSE" "${{targets.destdir}}/usr/share/licenses/${{package.name}}/LICENSE"
+
+test:
+  environment:
+    contents:
+      keyring:
+        - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+      repositories:
+        - https://packages.wolfi.dev/os
+      packages:
+        - busybox
+  pipeline:
+    - name: The packaged version runs
+      runs: |
+        node --version
+        test "$(node -p process.versions.node)" = "${{package.version}}"
+        node -e 'require("crypto").createHash("sha256").update("x").digest("hex")'
+
+update:
+  enabled: false
+  exclude-reason: "Renovate tracks the version (renovate.json)"

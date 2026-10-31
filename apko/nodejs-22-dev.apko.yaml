@@ -1,6 +1,7 @@
 # Node.js 22 development (maintenance LTS): the runtime plus a shell, npm, yarn, pnpm, git and the
 # C/C++ toolchain with Python for native modules (node-gyp). For building applications; ship them
-# on the runtime image. Runs as node (1000:1000).
+# on the runtime image. Runs as node (1000:1000). Node.js 22 itself is nodejs-22-upstream, the
+# official nodejs.org binaries built by melange/nodejs-22-upstream.yaml (see docs/NODE-SOURCES.md).
 contents:
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
@@ -10,7 +11,7 @@ contents:
     - wolfi-baselayout
     - ca-certificates-bundle
     - tzdata
-    - nodejs-22
+    - nodejs-22-upstream
     - npm
     - yarn
     - pnpm

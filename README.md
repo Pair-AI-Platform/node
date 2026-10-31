@@ -57,6 +57,10 @@ architectures, plus what changed.
 Support dates are from the [Node.js release schedule](https://github.com/nodejs/Release). Only
 supported lines are built; when a line reaches its end of life, its images stop being published.
 
+Node.js 24 and 26 are Wolfi packages. Node.js 22 comes from the official nodejs.org binaries,
+signature-verified and packaged here, because Wolfi stopped updating its Node.js 22 package in
+August 2026; see [Where Node.js comes from](docs/NODE-SOURCES.md).
+
 | Flavor | Contents |
 | :--- | :--- |
 | runtime (`node:22`) | Node.js, CA certificates and time zones. No shell, no package manager, no npm. Runs as `node` (1000:1000) in `/app`. |
@@ -213,7 +217,8 @@ oras discover --format tree "$IMAGE"
 
 ## Cryptography
 
-These images use the OpenSSL that Wolfi ships with Node.js, with its default settings. Which
+The Node.js 24 and 26 images use the OpenSSL that Wolfi ships, with its default settings; Node.js 22
+uses the OpenSSL built into the official binary ([details](docs/NODE-SOURCES.md)). Which
 cryptography profile an application needs depends on the software and on the contract: none, or
 FIPS 140-3 with a profile aligned with a national standard. That profile is not built into these
 images. It comes from **[khatm](https://github.com/Pair-AI-Platform/khatm)**, which provides:
@@ -309,6 +314,7 @@ closest references are in two documents:
 | :--- | :--- |
 | Packages inside the images (Node.js, OpenSSL, glibc, …) | Not pinned. The daily build takes the current Wolfi packages and publishes each image whose content changed |
 | apko, OpenSCAP and Grype images, oras, cosign, GitHub Actions | Pinned by digest or version. [Renovate](renovate.json) opens a pull request, which is automerged once the builds, tests and scans pass |
+| Node.js 22 (official nodejs.org binaries) | Renovate tracks the nodejs.org releases and the Node.js release keys; the pull request is automerged once the images pass ([details](docs/NODE-SOURCES.md)) |
 | A new Node.js line | Add `apko/nodejs-<major>.apko.yaml` and `-dev.apko.yaml` |
 
 ## Build locally
@@ -332,6 +338,9 @@ scripts/vuln-scan.sh node:22-amd64 out/vuln
 
 ```
 apko/nodejs-<major>[-dev].apko.yaml   image definitions
+melange/nodejs-22-upstream.yaml       Node.js 22 from nodejs.org, signature and checksum verified
+keys/node-packages.rsa.pub            public key of the packages built here
+docs/NODE-SOURCES.md                  where each Node.js line comes from, and why
 scanner/stig-scanner.apko.yaml        the OpenSCAP scanner (Wolfi: openscap, chainguard-security-guide)
 scripts/install-tools.sh              apko from its GitHub release, signature and checksum verified
 scripts/plan.py                       list of images for the build matrix

@@ -4,7 +4,8 @@
     scripts/plan.py <image-repository>        # e.g. ghcr.io/pair-ai-platform/node
 
 Prints a JSON list for a GitHub Actions matrix. Each entry has the config path, the family (the
-floating tag, e.g. "22" or "22-dev"), the flavor and the Node.js major version.
+floating tag, e.g. "22" or "22-dev"), the flavor, the Node.js major version, and whether the image
+needs packages built in this repository by melange (melange/*.yaml).
 """
 import json
 import pathlib
@@ -15,6 +16,14 @@ import sys
 LATEST_MAJOR = "26"
 
 image = sys.argv[1]
+
+# Packages built here by melange; images that list one are built with the local repository
+local_packages = set()
+for recipe in pathlib.Path("melange").glob("*.yaml"):
+    m = re.search(r"^package:\n  name: (\S+)", recipe.read_text(), re.M)
+    if m:
+        local_packages.add(m.group(1))
+
 entries = []
 for config in sorted(pathlib.Path("apko").glob("nodejs-*.apko.yaml")):
     m = re.fullmatch(r"nodejs-(\d+)(-dev)?\.apko\.yaml", config.name)
@@ -29,5 +38,6 @@ for config in sorted(pathlib.Path("apko").glob("nodejs-*.apko.yaml")):
         "flavor": "dev" if dev else "runtime",
         "major": major,
         "latest": major == LATEST_MAJOR,
+        "local": any(re.search(rf"^\s+- {re.escape(p)}(=|$)", config.read_text(), re.M) for p in local_packages),
     })
 print(json.dumps(entries))

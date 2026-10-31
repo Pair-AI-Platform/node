@@ -1,4 +1,7 @@
 # Build and scan output
+packages/
+.keys/
+*.rsa
 out/
 results/
 record/

@@ -12,8 +12,8 @@
     "at any time"
   ],
   "enabledManagers": [
-    "github-actions",
-    "custom.regex"
+    "custom.regex",
+    "github-actions"
   ],
   "labels": [
     "dependencies"
@@ -50,6 +50,28 @@
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\s*[\\w-]+(?::\\s|=)[\"']?(?<currentValue>[^\"'\\s]+)"
       ],
       "extractVersionTemplate": "^v?(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Package versions in the melange recipes, annotated with a '# renovate:' comment (Node.js 22 from nodejs.org)",
+      "managerFilePatterns": [
+        "/^melange/[^/]+\\.yaml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) versioning=(?<versioning>\\S+)\\n\\s+version: \"?(?<currentValue>[^\"\\s]+)\"?"
+      ],
+      "versioningTemplate": "{{{versioning}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "The Node.js release keys used to verify the downloads, pinned to a commit of nodejs/release-keys",
+      "managerFilePatterns": [
+        "/^melange/[^/]+\\.yaml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=git-refs depName=(?<depName>\\S+) currentValue=(?<currentValue>\\S+)\\n# release-keys-commit: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "datasourceTemplate": "git-refs"
     }
   ],
   "packageRules": [
@@ -74,6 +96,38 @@
         "dependencies",
         "major"
       ]
+    },
+    {
+      "description": "Node.js 22 from nodejs.org: newest 22.x as soon as it is released (security releases included), automerged once the images build, test and scan",
+      "matchFileNames": [
+        "melange/nodejs-22-upstream.yaml"
+      ],
+      "matchDepNames": [
+        "node"
+      ],
+      "allowedVersions": "<23",
+      "groupName": "nodejs 22 upstream",
+      "automerge": true,
+      "labels": [
+        "dependencies",
+        "nodejs"
+      ]
+    },
+    {
+      "description": "Node.js release keys: refresh the keyring for the new commit",
+      "matchDepNames": [
+        "https://github.com/nodejs/release-keys"
+      ],
+      "groupName": "nodejs release keys",
+      "postUpgradeTasks": {
+        "commands": [
+          "bash scripts/update-node-release-keys.sh"
+        ],
+        "fileFilters": [
+          "melange/nodejs-22-upstream/**"
+        ],
+        "executionMode": "branch"
+      }
     }
   ],
   "vulnerabilityAlerts": {

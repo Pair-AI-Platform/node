@@ -67,4 +67,6 @@ jobs:
           RENOVATE_REQUIRE_CONFIG: 'optional'
           # Commits are authored by the App's bot user
           RENOVATE_GIT_AUTHOR: 'renovate-bot-updater[bot] <350416368+renovate-bot-updater[bot]@users.noreply.github.com>'
+          # The only command a pull request may run: refreshing the Node.js release keys
+          RENOVATE_ALLOWED_COMMANDS: '["^bash scripts/update-node-release-keys\\.sh$"]'
           LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
