@@ -1,0 +1,13 @@
+# Build and scan output
+out/
+results/
+record/
+site/
+*.tar
+*.spdx.json
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
