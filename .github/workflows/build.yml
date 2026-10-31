@@ -151,10 +151,12 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  # Each image is published on its own: an image whose tests failed is skipped (its results were not
+  # uploaded), and does not hold back the others. The run itself still fails, so the failure shows.
   publish:
     name: publish (${{ matrix.image.family }})
     needs: [plan, test]
-    if: inputs.publish
+    if: ${{ !cancelled() && inputs.publish && needs.plan.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -208,6 +210,19 @@ jobs:
           pattern: results-${{ matrix.image.family }}-*
           path: results
 
+      # Results are uploaded only when the tests and scans of that architecture passed
+      - name: Tested on Both Architectures
+        id: tested
+        run: |
+          for arch in x86_64 aarch64; do
+            if [ ! -f "results/results-$FAMILY-$arch/image.json" ]; then
+              echo "::warning::$FAMILY did not pass its tests on $arch; not publishing it"
+              echo "ok=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+
       - name: Log in to GHCR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -218,6 +233,7 @@ jobs:
 
       - name: Build Both Architectures
         id: build
+        if: steps.tested.outputs.ok == 'true'
         run: |
           mkdir -p out/sbom
           apko publish "$CONFIG" "$STAGED:staging" --arch x86_64,aarch64 --vcs=false \
@@ -230,6 +246,7 @@ jobs:
 
       # The build is reproducible: the images published here must be byte for byte the ones tested
       - name: Check Against the Tested Images
+        if: steps.tested.outputs.ok == 'true'
         env:
           INDEX: ${{ steps.build.outputs.index }}
         run: |
@@ -246,6 +263,7 @@ jobs:
 
       - name: Check for Changes
         id: changed
+        if: steps.tested.outputs.ok == 'true'
         env:
           INDEX: ${{ steps.build.outputs.index }}
         run: |
