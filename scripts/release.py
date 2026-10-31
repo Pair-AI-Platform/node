@@ -122,10 +122,12 @@ def notes(rec):
     if not findings:
         out.append("None found.")
     else:
-        out += ["| ID | Severity | Package | Installed | Fixed in | Architectures |",
-                "| :--- | :--- | :--- | :--- | :--- | :--- |"]
+        out += ["| ID | Severity | Package | Installed | Comes from | Fixed upstream in | Architectures |",
+                "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |"]
         out += [f"| [{f['id']}]({f['url']}) | {f['severity']} | `{f['package']}` | {f['version']} "
-                f"| {', '.join(f['fixed_in']) or 'not fixed yet'} | {', '.join(f['arches'])} |" for f in findings]
+                f"| `{f.get('source') or f['package']}` | {', '.join(f['fixed_in']) or 'no fix yet'} "
+                f"| {', '.join(f['arches'])} |" for f in findings]
+        out += ["", FIX_NOTE]
     failed = rec["scans"]["x86_64"]["stig"]["failed"]
     if failed:
         out += ["", "Hardening-profile rules not passed (x86_64):", ""]
@@ -142,6 +144,12 @@ def notes(rec):
         "```",
     ]
     return "\n".join(out) + "\n"
+
+
+FIX_NOTE = ("*Comes from* is the Wolfi package that brings the affected code into the image; a library "
+            "bundled inside npm, for example, comes from the npm package. *Fixed upstream in* is the "
+            "version of the affected code that fixes it; the image gets the fix when the package it comes "
+            "from ships that version, and the next build after that publishes it.")
 
 
 def merged_findings(rec):
@@ -200,16 +208,18 @@ def page(rec, record_dir, site):
     counts = {s: sum(1 for f in findings if f["severity"] == s) for s in SEVERITIES}
     rows.append('<h2 id="vulnerabilities">Vulnerabilities</h2>')
     rows.append("<p>" + " · ".join(f"{s}: {n}" for s, n in counts.items() if n) if findings else "<p>None found.")
-    rows.append(' <span class="muted">(Grype; a fixed version is picked up by the next daily rebuild)</span></p>')
+    rows.append(' <span class="muted">(Grype)</span></p>')
     if findings:
         rows.append("<table><tr><th>ID</th><th>Severity</th><th>Package</th><th>Installed</th>"
-                    "<th>Fixed in</th><th>Architectures</th></tr>")
+                    "<th>Comes from</th><th>Fixed upstream in</th><th>Architectures</th></tr>")
         for f in findings:
             rows.append(f'<tr><td><a href="{e(f["url"])}">{e(f["id"])}</a></td>'
                         f'<td class="{e(f["severity"])}">{e(f["severity"])}</td><td><code>{e(f["package"])}</code></td>'
-                        f'<td>{e(f["version"])}</td><td>{e(", ".join(f["fixed_in"]) or "not fixed yet")}</td>'
+                        f'<td>{e(f["version"])}</td><td><code>{e(f.get("source") or f["package"])}</code></td>'
+                        f'<td>{e(", ".join(f["fixed_in"]) or "no fix yet")}</td>'
                         f'<td>{e(", ".join(f["arches"]))}</td></tr>')
         rows.append("</table>")
+        rows.append(f'<p class="muted">{e(FIX_NOTE).replace("*", "")}</p>')
     rows.append('<h2 id="sbom">SBOM</h2><p>One SPDX SBOM per architecture, also attached to the image as a '
                 'signed attestation.</p>')
     for arch in ARCHES:

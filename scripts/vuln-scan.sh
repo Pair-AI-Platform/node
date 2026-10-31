@@ -6,7 +6,9 @@
 # <image-ref> must be available to the local Docker daemon. Writes <out-dir>/grype.json and
 # <out-dir>/summary.json with the number of findings per severity, how many of them already have a
 # fixed version in Wolfi (those disappear with the next rebuild), and every finding: the CVE or
-# advisory ID with its link, its severity, the affected package and version, and the fixed version.
+# advisory ID with its link, its severity, the affected package and version, the version upstream
+# fixed it in, and the Wolfi package it comes from: a library bundled inside npm, for example, is
+# fixed in the image only when that npm package is updated.
 set -euo pipefail
 
 image="$1"
@@ -18,9 +20,38 @@ GRYPE_IMAGE="${GRYPE_IMAGE:-anchore/grype:v0.121.0@sha256:621d56d1d68106b787022c
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock "$GRYPE_IMAGE" \
   "docker:$image" -o json -q > "$out/grype.json"
 
-python3 - "$out/grype.json" "$out/summary.json" <<'PY'
+# The image's apk database: which installed package owns which file
+cid="$(docker create "$image")"
+docker cp "$cid:/usr/lib/apk/db/installed" - | tar -xO > "$out/apk-installed"
+docker rm "$cid" >/dev/null
+
+python3 - "$out/grype.json" "$out/summary.json" "$out/apk-installed" <<'PY'
 import json, sys
 matches = json.load(open(sys.argv[1]))["matches"]
+
+owner = {}
+for entry in open(sys.argv[3]).read().split("\n\n"):
+    name = version = directory = ""
+    for line in entry.splitlines():
+        key, _, value = line.partition(":")
+        if key == "P":
+            name = value
+        elif key == "V":
+            version = value
+        elif key == "F":
+            directory = value
+        elif key == "R":
+            owner["/" + directory + "/" + value] = f"{name} {version}"
+
+
+def source(artifact):
+    if artifact.get("type") == "apk":
+        return f"{artifact['name']} {artifact['version']}"
+    for location in artifact.get("locations", []):
+        path = location.get("path", "")
+        if path in owner:
+            return owner[path]
+    return ""
 order = ["Critical", "High", "Medium", "Low", "Negligible", "Unknown"]
 counts = {s: 0 for s in order}
 fixable = {s: 0 for s in order}
@@ -47,6 +78,7 @@ for m in matches:
         "package": a["name"],
         "version": a["version"],
         "fixed_in": v.get("fix", {}).get("versions", []),
+        "source": source(a),
         "url": advisory_url(v),
     })
 rank = {s: i for i, s in enumerate(order)}
