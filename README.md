@@ -5,7 +5,7 @@
 
 Minimal, non-root Node.js container images for `linux/amd64` and `linux/arm64`, built with
 [apko](https://github.com/chainguard-dev/apko) from [Wolfi](https://github.com/wolfi-dev) packages.
-Every image is rebuilt daily and published again only when its content changed. Every version is:
+Every image is rebuilt every two hours and published again only when its content changed. Every version is:
 
 - **tested** on both architectures;
 - **scanned** with OpenSCAP against a hardening profile derived from the DISA General Purpose
@@ -22,7 +22,7 @@ chosen per application and per contract, and is provided separately: see [Crypto
 | :--- | :--- | :--- |
 | **Hardening** | OpenSCAP profile derived from the DISA General Purpose Operating System SRG (not an official DISA STIG for containers) | Rules passed out of the applicable ones (about 93% on `node:22`), the full report, a signed attestation; see [Security scans](#security-scans) |
 | **🇸🇦 Saudi Arabia** | NCA ECC-2:2024 1-6-2-2, 1-6-3-2, 1-6-3-5, 2-1, 2-2-3-3, 2-10-3 · NCA CCC-2:2024 2-3-P-1-3, 2-3-P-1-7, 2-9-T-1-1, 4-1-P-1-2 · NCA CSCC-1:2019 2-3-1-1, 2-3-1-7 · SAMA CSF 3.3.8, 3.3.17 | Minimal non-root baseline, STIG and vulnerability results, SBOM, signatures, provenance |
-| **🇰🇼 Kuwait** | CBK CORF 5.3.1.2–5.3.1.5 (hardening against recognized benchmarks), 5.8.1.3 (SBOM), 5.13 (vulnerability and patch management) · NCSC NBCC PR-1, ID-2 | Same, plus daily rebuilds |
+| **🇰🇼 Kuwait** | CBK CORF 5.3.1.2–5.3.1.5 (hardening against recognized benchmarks), 5.8.1.3 (SBOM), 5.13 (vulnerability and patch management) · NCSC NBCC PR-1, ID-2 | Same, plus rebuilds every two hours |
 | **🇦🇪 UAE** | UAE IA Regulation v1.1 T3.2.1, T5.5.4, T7.5.1, T7.7.1, T7.8.1 (superseded by the IA Standard v2.x, 2025; mapping to v2 follows) | Same; the scans use the SCAP formats (XCCDF, OVAL, CVE, CVSS) T7.7 names |
 | **🇶🇦 Qatar** | NCSA National Vulnerability Management Guidelines v1.0 (Jan 2026) §6.5 (3–7 days for actively exploited, 14–30 days for CVSS ≥ 7.0), §6.8(b) | Hourly check for fixes, vulnerabilities per release |
 | **🇧🇭 Bahrain · 🇴🇲 Oman** | CBB OM-5.5.18, OM-5.5.25, OM-5.5.27, Appendix C · ITA Basic Security Controls 5.5, 5.6, 5.8 | Same |
@@ -111,7 +111,7 @@ Every run takes each image through these steps; a version exists for users only 
   always point to a kept, signed version.
 - **Retention: five versions per image.** GHCR and the GitHub releases keep the five newest versions
   of each image (`22`, `22-dev`, `24`, …). A new version is published only when the content
-  changed, not on every daily build, so five versions cover several weeks.
+  changed, not on every scheduled build, so five versions cover several weeks.
 - **The evidence outlives the image.** For every version ever published, these stay available after
   the image itself is deleted:
   - `https://pair-ai-platform.github.io/node/archive/<image>/<release>/` (for example
@@ -162,7 +162,7 @@ and why:
 
 Each image is scanned with [Grype](https://github.com/anchore/grype) on both architectures, and
 the counts per severity are in the badges, the GitHub releases and a signed attestation. Most
-findings in Wolfi images already have a fix in Wolfi: the next daily rebuild picks it up and
+findings in Wolfi images already have a fix in Wolfi: the next rebuild (at most two hours later) picks it up and
 publishes a new version.
 
 ### Image tests
@@ -289,7 +289,7 @@ closest references are in two documents:
 | Document | Clause | Requirement | What the images provide | Stays with the operator |
 | :--- | :--- | :--- | :--- | :--- |
 | [CBK CORF v1.0](https://www.cbk.gov.kw/en/images/corf-170113_v10_tcm10-170113.pdf) | 5.3.1.2 | Configuration standards "based on global best practices (such as NIST, Center for Internet Security (CIS) benchmarks)" | OpenSCAP results against the DISA GPOS SRG-derived profile; CIS is not run | Choosing and justifying the benchmark |
-| | 5.3.1.3 (a,b,c,e,f) | Only supported software, minimum components, up-to-date updates, no unnecessary services, no unneeded accounts | Distroless, minimal, rebuilt daily, non-root | Approving versions, network policy |
+| | 5.3.1.3 (a,b,c,e,f) | Only supported software, minimum components, up-to-date updates, no unnecessary services, no unneeded accounts | Distroless, minimal, rebuilt every two hours, non-root | Approving versions, network policy |
 | | 5.3.1.4, 5.3.1.5 | Quarterly checks against configuration standards; testing before go-live | OpenSCAP results per release | Quarterly checks of running systems |
 | | 5.8.1.3 | "all software … accompanied by an up-to-date Software Bill of Materials (SBOM)" | SPDX SBOM per architecture, signed | SBOMs for the application layers added on top |
 | | 5.13.1.2, 5.13.2.2–5.13.2.4 | Assessments for missing updates and baselines; risk-based patching; emergency patches immediately | Daily rebuilds, results per release | Patching schedule, exception register |
@@ -311,7 +311,7 @@ closest references are in two documents:
 | Document | Clause | Requirement | What the images provide | Stays with the operator |
 | :--- | :--- | :--- | :--- | :--- |
 | [CBB Rulebook Vol. 1, OM](https://cbben.thomsonreuters.com/sites/default/files/net_file_store/Vol_1_OM_April_2023.pdf) (module realigned May 2026, OM-5.5 wording unchanged) | OM-5.5.18 (d),(h) | Security testing at development and after deployment; list of whitelisted applications and components | Build-time scans; SBOM as component list | Post-deployment testing |
-| | OM-5.5.25, OM-5.5.27 | Monthly (internal) or weekly (external) assessments; patches in risk-based timeframes | Results per release; daily rebuilds | Cadence and timeframes |
+| | OM-5.5.25, OM-5.5.27 | Monthly (internal) or weekly (external) assessments; patches in risk-based timeframes | Results per release; rebuilds every two hours | Cadence and timeframes |
 | | Appendix C | Integrity checking of software; baseline configuration with least functionality; quarterly scans | Signatures; minimal baseline; scans | Change control |
 | [ITA Basic Security Controls v1.0](https://www.moheri.gov.om/userupload/Policy/Basic%20Security%20Controls%20Guidelines.pdf) (Oman, 2017) | 5.5, CM.2–CM.8, 5.6, 5.8 | Baseline configurations, least functionality, component inventory, scheduled scanning, patch management | Hardened baseline, SBOM, scans, rebuilds | Schedules and change management |
 
@@ -335,7 +335,7 @@ closest references are in two documents:
 
 | What | How |
 | :--- | :--- |
-| Packages inside the images (Node.js 24 and 26, OpenSSL, glibc, npm, …) | Not pinned. Every hour, `wolfi-watch.yml` resolves which Wolfi versions each image would get; as soon as anything changed, it starts the release, which publishes each image whose content changed. A Wolfi fix reaches the images within about an hour; the daily build stays as a safety net |
+| Packages inside the images (Node.js 24 and 26, OpenSSL, glibc, npm, …) | Not pinned. Every hour, `wolfi-watch.yml` resolves which Wolfi versions each image would get; as soon as anything changed, it starts the release, which publishes each image whose content changed. A Wolfi fix reaches the images within about an hour; the build every two hours stays as a safety net |
 | apko, OpenSCAP and Grype images, oras, cosign, GitHub Actions | Pinned by digest or version. [Renovate](renovate.json) opens a pull request, which is automerged once the builds, tests and scans pass |
 | Node.js 22 (official nodejs.org binaries) | Renovate tracks the nodejs.org releases and the Node.js release keys; the pull request is automerged once the images pass ([details](docs/NODE-SOURCES.md)) |
 | A new Node.js line | Add `apko/nodejs-<major>.apko.yaml` and `-dev.apko.yaml` |
@@ -374,7 +374,7 @@ scripts/release.py                    release records, notes and status badges
 scripts/wolfi-state.sh                the Wolfi package versions each image would get now
 .github/workflows/build.yml           reusable: build, test, scan, publish, sign, attest (SLSA L3)
 .github/workflows/pr.yml              checks for every pull request
-.github/workflows/release.yml         daily and on merge: publish, releases, badges, keep five
+.github/workflows/release.yml         every 2 h and on merge: publish, releases, badges, keep five
 .github/workflows/wolfi-watch.yml     hourly: starts a release as soon as Wolfi updates a package in the images
 .github/workflows/renovate.yml        self-hosted Renovate for this repository
 MAINTAINING.md                        repository settings

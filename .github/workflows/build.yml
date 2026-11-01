@@ -120,7 +120,8 @@ jobs:
           name: packages-${{ matrix.arch }}
           path: packages
           if-no-files-found: error
-          retention-days: 7
+          # Only used by the later jobs of this run, and the largest artifact (~57 MB each)
+          retention-days: 1
 
   test:
     name: test (${{ matrix.image.family }}, ${{ matrix.arch.name }})
@@ -494,7 +495,8 @@ jobs:
           name: release-${{ matrix.image.family }}
           path: record
           if-no-files-found: error
-          retention-days: 7
+          # Read by the release job of this run; the GitHub release keeps it afterwards
+          retention-days: 1
 
       # Unchanged image: no release, but its status (today's vulnerability scan, the profile results,
       # the SBOM) is refreshed on the status pages and badges, since new CVEs appear every day
@@ -530,7 +532,8 @@ jobs:
           name: status-${{ matrix.image.family }}
           path: status
           if-no-files-found: ignore
-          retention-days: 7
+          # Read by the release job of this run; the status pages keep it afterwards
+          retention-days: 1
 
       # Last step: the tags appear only on a published, signed, attested and verified digest
       - name: Tag

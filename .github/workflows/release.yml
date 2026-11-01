@@ -1,18 +1,21 @@
 name: Release
 
-# Rebuilds every image daily (Wolfi publishes fixes continuously) and on every change to main, and
+# Rebuilds every image every two hours (Wolfi publishes fixes continuously) and on every change to main, and
 # publishes the images whose content changed (see build.yml). Each published image gets a GitHub
 # release with its changelog and scan results, and its status (STIG score, vulnerabilities, latest
 # tag) is written to GitHub Pages for the README badges. Five versions per image are kept, in GHCR
 # and as GitHub releases.
 on:
   schedule:
-    - cron: '23 2 * * *'
+    - cron: '23 */2 * * *'
   push:
     branches:
       - main
     paths:
       - 'apko/**'
+      # Node.js 22 from nodejs.org: Renovate's version and release-key updates land here
+      - 'melange/**'
+      - 'keys/**'
       - 'scripts/**'
       - '.github/workflows/build.yml'
       - '.github/workflows/release.yml'

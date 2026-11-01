@@ -3,7 +3,7 @@ name: Wolfi Watch
 # Every hour: works out which Wolfi package versions each image would get if it were built now, and
 # starts the release workflow as soon as that differs from the last check. A Wolfi fix therefore
 # reaches the images within about an hour; the release publishes only the images whose content
-# changed. The daily scheduled release stays as the safety net.
+# changed. The scheduled release every two hours stays as the safety net.
 on:
   schedule:
     - cron: '7 * * * *'
