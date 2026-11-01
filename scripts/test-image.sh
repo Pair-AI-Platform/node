@@ -51,7 +51,9 @@ server.listen(8443, () => {
   });
 });
 EOF
-chmod -R a+r "$tlsdir"
+# mktemp -d is 0700; the container runs as uid 1000 and needs to traverse the directory too
+chmod 755 "$tlsdir"
+chmod 644 "$tlsdir"/*
 group="$(docker run --rm -v "$tlsdir:/t:ro,z" "$image" /t/pq.js 2>&1 || true)"
 rm -rf "$tlsdir"
 if [ "$major" -ge 24 ]; then
