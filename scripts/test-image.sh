@@ -64,10 +64,12 @@ else
 fi
 
 if [ "$flavor" = runtime ]; then
-  # Distroless: no shell and no package manager
-  check "no shell" node -e 'process.exit(["/bin/sh","/bin/bash","/usr/bin/sh","/usr/bin/bash"].some(p => require("fs").existsSync(p)) ? 1 : 0)'
+  # Shells available: sh and bash; no package manager
+  check "sh is available" docker run --rm --entrypoint sh "$image" -c "exit 0"
+  check "bash is available" docker run --rm --entrypoint bash "$image" --version
   check "no package manager" node -e 'process.exit(["/sbin/apk","/usr/bin/apk","/usr/bin/npm"].some(p => require("fs").existsSync(p)) ? 1 : 0)'
 else
+  check "sh is available" docker run --rm --entrypoint sh "$image" -c "exit 0"
   for tool in npm yarn pnpm git make gcc g++ python3 bash; do
     check "$tool is available" docker run --rm --entrypoint "$tool" "$image" --version
   done

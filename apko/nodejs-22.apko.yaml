@@ -1,4 +1,4 @@
-# Node.js 22 runtime (maintenance LTS): distroless, so no shell and no package manager; runs as
+# Node.js 22 runtime (maintenance LTS): with sh and bash shells; runs as
 # node (1000:1000). Packages are not pinned: every build takes the current Wolfi packages, and the
 # release workflow publishes a new version only when the resulting image differs from the last one.
 # Node.js 22 itself is nodejs-22-upstream, the official nodejs.org binaries built by
@@ -13,6 +13,8 @@ contents:
     - ca-certificates-bundle
     - tzdata
     - nodejs-22-upstream
+    - busybox
+    - bash
 
 accounts:
   groups:
@@ -22,7 +24,7 @@ accounts:
     - username: node
       uid: 1000
       gid: 1000
-      shell: /sbin/nologin
+      shell: /bin/bash
   run-as: 1000
 
 paths:
@@ -44,7 +46,7 @@ environment:
 
 annotations:
   org.opencontainers.image.title: Node.js 22
-  org.opencontainers.image.description: Node.js 22 runtime on Wolfi. Distroless, non-root.
+  org.opencontainers.image.description: Node.js 22 runtime on Wolfi with sh and bash. Non-root.
 
 archs:
   - x86_64
