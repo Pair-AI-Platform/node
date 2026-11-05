@@ -26,16 +26,16 @@
   "vulnerabilities": {
     "x86_64": {
       "Critical": 0,
-      "High": 4,
-      "Medium": 3,
+      "High": 5,
+      "Medium": 4,
       "Low": 1,
       "Negligible": 0,
       "Unknown": 0
     },
     "aarch64": {
       "Critical": 0,
-      "High": 4,
-      "Medium": 3,
+      "High": 5,
+      "Medium": 4,
       "Low": 1,
       "Negligible": 0,
       "Unknown": 0
