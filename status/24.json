@@ -1,8 +1,8 @@
 {
   "family": "24",
-  "release": "24.22.2-20261104.72",
+  "release": "24.22.2-20261105.88",
   "node": "24.22.2",
-  "digest": "sha256:08eb1cc0276262f3e83231018841b86f3ef73e3a61c0e389f38f6c2b738a6f5d",
+  "digest": "sha256:de3e8011b19a1f97cda745d0240cc7d240cd6871917a9bd956d2a5d993deba39",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 58409034,
+      "compressed": 58409122,
       "installed": 153956374
     },
     "aarch64": {
-      "compressed": 55600433,
+      "compressed": 55600515,
       "installed": 148894407
     }
   },
