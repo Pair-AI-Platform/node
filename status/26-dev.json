@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.0-dev-20261105.90",
+  "release": "26.13.0-dev-20261106.101",
   "node": "26.13.0",
-  "digest": "sha256:82e3740ba69690b5716edff4b69d69d16f0492254a513aadac9011b732c64535",
+  "digest": "sha256:4033aa30cd94065ae005455db942c654e3ba3961dabf46a070acfdcb0d7fd96a",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 290532644,
+      "compressed": 290532669,
       "installed": 781418002
     },
     "aarch64": {
-      "compressed": 274114512,
+      "compressed": 274114638,
       "installed": 834164417
     }
   },
@@ -69,7 +69,7 @@
     "libstdc++ 16.2.0-r2",
     "libstdc++-dev 16.2.0-r2",
     "libuv 1.53.0-r0",
-    "nodejs-26 26.13.0-r0",
+    "nodejs-26 26.13.0-r1",
     "npm-12 12.2.2-r0",
     "openssl-4.0-libcrypto 4.0.3-r8",
     "openssl-4.0-libssl 4.0.3-r8",
