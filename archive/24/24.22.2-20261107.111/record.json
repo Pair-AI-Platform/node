@@ -1,0 +1,220 @@
+{
+  "family": "24",
+  "flavor": "runtime",
+  "image": "ghcr.io/pair-ai-platform/node",
+  "release": "24.22.2-20261107.111",
+  "floating": [
+    "24",
+    "24.22",
+    "24.22.2"
+  ],
+  "digest": "sha256:a6d1163dfaf0208f4ef38f66090125bd935df843752c44a209906c7eb33fb4ac",
+  "node": "24.22.2",
+  "first_release": false,
+  "key_packages": [
+    "ca-certificates-bundle 20261020-r0",
+    "glibc-2.44 2.44-r14",
+    "libicu79 79.1-r1",
+    "libstdc++ 16.2.0-r2",
+    "libuv 1.53.0-r0",
+    "nodejs-24 24.22.2-r2",
+    "openssl-4.0-libcrypto 4.0.3-r8",
+    "openssl-4.0-libssl 4.0.3-r8"
+  ],
+  "packages": {
+    "added": [],
+    "removed": [],
+    "updated": [
+      [
+        "glibc-2.44",
+        "2.44-r13",
+        "2.44-r14"
+      ],
+      [
+        "glibc-2.44-locale-posix",
+        "2.44-r13",
+        "2.44-r14"
+      ],
+      [
+        "ld-linux-2.44",
+        "2.44-r13",
+        "2.44-r14"
+      ],
+      [
+        "libcrypt1-2.44",
+        "2.44-r13",
+        "2.44-r14"
+      ]
+    ]
+  },
+  "scans": {
+    "x86_64": {
+      "digest": "sha256:5bc7d6d55a284383ca11cf183a0a5067d07d54705e81d74a4bc33c54829c165e",
+      "sbom": {
+        "packages": 27,
+        "spdx_packages": 120
+      },
+      "size": {
+        "compressed": 58409094,
+        "installed": 153956398
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 1,
+        "counts": {
+          "Critical": 0,
+          "High": 1,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 0,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-84243",
+            "severity": "High",
+            "package": "glibc-2.44",
+            "version": "2.44-r14",
+            "fixed_in": [],
+            "source": "glibc-2.44 2.44-r14",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84243"
+          }
+        ]
+      }
+    },
+    "aarch64": {
+      "digest": "sha256:d823fea6f180cd1f0fb64dc53bc582e28c3d5a3a6d8081e9362069ebbf3fc1fd",
+      "sbom": {
+        "packages": 27,
+        "spdx_packages": 120
+      },
+      "size": {
+        "compressed": 55623145,
+        "installed": 148894359
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 1,
+        "counts": {
+          "Critical": 0,
+          "High": 1,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 0,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-84243",
+            "severity": "High",
+            "package": "glibc-2.44",
+            "version": "2.44-r14",
+            "fixed_in": [],
+            "source": "glibc-2.44 2.44-r14",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84243"
+          }
+        ]
+      }
+    }
+  }
+}
