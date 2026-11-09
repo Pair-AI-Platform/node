@@ -1,8 +1,8 @@
 {
   "family": "24",
-  "release": "24.22.2-20261109.147",
+  "release": "24.22.2-20261109.150",
   "node": "24.22.2",
-  "digest": "sha256:dd845c0a4f62d4f7bbd1b13a3e3965b2bb6d4eb728a2e12ef404234ba0bfc618",
+  "digest": "sha256:83ccb968f02e16cc641e5f3f36811b3435e0d55d88d0f0ecedd2c0d1092a1ab8",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,18 +53,18 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 58439421,
-      "installed": 153952326
+      "compressed": 58435143,
+      "installed": 153950502
     },
     "aarch64": {
-      "compressed": 55624315,
-      "installed": 148894383
+      "compressed": 55623256,
+      "installed": 148892559
     }
   },
   "key_packages": [
     "ca-certificates-bundle 20261020-r0",
-    "glibc-2.44 2.44-r14",
-    "libicu79 79.1-r1",
+    "glibc-2.44 2.44-r15",
+    "libicu79 79.1-r2",
     "libstdc++ 16.2.0-r3",
     "libuv 1.53.0-r0",
     "nodejs-24 24.22.2-r2",
