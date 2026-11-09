@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.0-dev-20261108.124",
+  "release": "26.13.0-dev-20261109.147",
   "node": "26.13.0",
-  "digest": "sha256:689afaf4518c7542781f3012d690cb2fa9c69d0c0168604f91998806b7a14b11",
+  "digest": "sha256:276025ca4b1a77199795b4fe47a027129b0d29abed8e50e3d0f5540f5c9313cf",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 290574998,
+      "compressed": 290574929,
       "installed": 781413931
     },
     "aarch64": {
-      "compressed": 274170540,
+      "compressed": 274170565,
       "installed": 834166250
     }
   },
@@ -66,8 +66,8 @@
     "glibc-2.44 2.44-r14",
     "glibc-2.44-dev 2.44-r14",
     "libicu79 79.1-r1",
-    "libstdc++ 16.2.0-r2",
-    "libstdc++-dev 16.2.0-r2",
+    "libstdc++ 16.2.0-r3",
+    "libstdc++-dev 16.2.0-r3",
     "libuv 1.53.0-r0",
     "nodejs-26 26.13.0-r1",
     "npm-12 12.2.2-r0",
