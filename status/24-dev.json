@@ -1,8 +1,8 @@
 {
   "family": "24-dev",
-  "release": "24.22.2-dev-20261111.176",
-  "node": "24.22.2",
-  "digest": "sha256:c633d9886185779c85ee7e1fcca3b72d00ea231c65163e186a5b2c45b74fe67e",
+  "release": "24.22.3-dev-20261111.179",
+  "node": "24.22.3",
+  "digest": "sha256:2d32a8ade7f6c7aad8007957a9e5ec8c5cd10326884e2e26a7e537acc19cca0b",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,12 +53,12 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 286803330,
-      "installed": 771221988
+      "compressed": 286917909,
+      "installed": 771232556
     },
     "aarch64": {
-      "compressed": 270263490,
-      "installed": 821379151
+      "compressed": 270316232,
+      "installed": 821446663
     }
   },
   "key_packages": [
@@ -69,7 +69,7 @@
     "libstdc++ 16.2.0-r3",
     "libstdc++-dev 16.2.0-r3",
     "libuv 1.53.0-r0",
-    "nodejs-24 24.22.2-r2",
+    "nodejs-24 24.22.3-r0",
     "npm-12 12.2.2-r0",
     "openssl-4.0-libcrypto 4.0.3-r8",
     "openssl-4.0-libssl 4.0.3-r8",
