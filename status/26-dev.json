@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.0-dev-20261111.165",
+  "release": "26.13.0-dev-20261111.174",
   "node": "26.13.0",
-  "digest": "sha256:677f36bbcf3812d571c23869b3f839830b83c4dba7bdb8a817b444719cd5cd5d",
+  "digest": "sha256:3ed86f4f21ef54732d449c624ffc13d6944ecafb0dc76d769b9150d3874c9c1d",
   "stig": {
     "x86_64": {
       "counts": {
@@ -43,22 +43,22 @@
   },
   "sbom": {
     "x86_64": {
-      "packages": 79,
-      "spdx_packages": 525
+      "packages": 80,
+      "spdx_packages": 528
     },
     "aarch64": {
-      "packages": 79,
-      "spdx_packages": 525
+      "packages": 80,
+      "spdx_packages": 528
     }
   },
   "size": {
     "x86_64": {
-      "compressed": 290662420,
-      "installed": 781412575
+      "compressed": 290600651,
+      "installed": 781430771
     },
     "aarch64": {
-      "compressed": 274188765,
-      "installed": 834164606
+      "compressed": 274149620,
+      "installed": 834170734
     }
   },
   "key_packages": [
