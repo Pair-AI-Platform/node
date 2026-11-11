@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.0-dev-20261111.176",
-  "node": "26.13.0",
-  "digest": "sha256:d492d63752c4763a4c4f18033768faabdbafc69d4ba423737907eb0de0a42ddd",
+  "release": "26.13.1-dev-20261111.181",
+  "node": "26.13.1",
+  "digest": "sha256:42132a4fa8250f969bed389cc10a1349ac3bde2fc2c89da003c040574a43faf5",
   "stig": {
     "x86_64": {
       "counts": {
@@ -27,7 +27,7 @@
     "x86_64": {
       "Critical": 0,
       "High": 4,
-      "Medium": 4,
+      "Medium": 2,
       "Low": 1,
       "Negligible": 0,
       "Unknown": 0
@@ -35,7 +35,7 @@
     "aarch64": {
       "Critical": 0,
       "High": 4,
-      "Medium": 4,
+      "Medium": 2,
       "Low": 1,
       "Negligible": 0,
       "Unknown": 0
@@ -44,21 +44,21 @@
   "sbom": {
     "x86_64": {
       "packages": 80,
-      "spdx_packages": 528
+      "spdx_packages": 530
     },
     "aarch64": {
       "packages": 80,
-      "spdx_packages": 528
+      "spdx_packages": 530
     }
   },
   "size": {
     "x86_64": {
-      "compressed": 290600641,
-      "installed": 781430753
+      "compressed": 290737507,
+      "installed": 781827930
     },
     "aarch64": {
-      "compressed": 274149638,
-      "installed": 834170716
+      "compressed": 274232868,
+      "installed": 834538837
     }
   },
   "key_packages": [
@@ -69,8 +69,8 @@
     "libstdc++ 16.2.0-r3",
     "libstdc++-dev 16.2.0-r3",
     "libuv 1.53.0-r0",
-    "nodejs-26 26.13.0-r1",
-    "npm-12 12.2.2-r0",
+    "nodejs-26 26.13.1-r0",
+    "npm-12 12.2.2-r1",
     "openssl-4.0-libcrypto 4.0.3-r8",
     "openssl-4.0-libssl 4.0.3-r8",
     "pnpm-11.8 11.8.0-r5",
