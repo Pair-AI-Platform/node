@@ -1,8 +1,8 @@
 {
   "family": "22-dev",
-  "release": "22.23.4-dev-20261111.181",
+  "release": "22.23.4-dev-20261112.194",
   "node": "22.23.4",
-  "digest": "sha256:4753eac828235d59b95afcf85d22ae328526fba9dc249e16021bd6bfb4063abf",
+  "digest": "sha256:4c6089d93ea520495c1eca390f107d6a8d59f657f238675578e3b6ce04a92cbc",
   "stig": {
     "x86_64": {
       "counts": {
@@ -57,7 +57,7 @@
       "installed": 828231734
     },
     "aarch64": {
-      "compressed": 282054674,
+      "compressed": 282054669,
       "installed": 879970761
     }
   },
