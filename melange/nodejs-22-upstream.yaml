@@ -15,7 +15,7 @@
 package:
   name: nodejs-22-upstream
   # renovate: datasource=node-version depName=node versioning=node
-  version: "22.23.4"
+  version: "22.23.5"
   epoch: 0
   description: "Node.js 22 LTS, official binaries from nodejs.org, signature and checksum verified"
   url: https://nodejs.org
