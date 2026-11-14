@@ -1,8 +1,8 @@
 {
   "family": "26",
-  "release": "26.13.1-20261114.214",
+  "release": "26.13.1-20261114.224",
   "node": "26.13.1",
-  "digest": "sha256:b6e7608cb9e85ce0212c98aec372ce6384c7a472e4fcf1eb2e7a53f1f5761064",
+  "digest": "sha256:46fe677ba044434a0a31e7cda9cf81f064bd508cbe6b56d396fca77d9b4e2858",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 62123852,
-      "installed": 164190475
+      "compressed": 62123867,
+      "installed": 164193702
     },
     "aarch64": {
-      "compressed": 59505795,
+      "compressed": 59505794,
       "installed": 161686020
     }
   },
@@ -65,7 +65,7 @@
     "ca-certificates-bundle 20261020-r0",
     "glibc-2.44 2.44-r19",
     "libicu79 79.1-r2",
-    "libstdc++ 16.2.0-r3",
+    "libstdc++ 16.2.0-r4",
     "libuv 1.53.0-r0",
     "nodejs-26 26.13.1-r1",
     "openssl-4.0-libcrypto 4.0.3-r8",
