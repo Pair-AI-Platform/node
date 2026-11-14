@@ -1,0 +1,298 @@
+{
+  "family": "22-dev",
+  "flavor": "dev",
+  "image": "ghcr.io/pair-ai-platform/node",
+  "release": "22.23.5-dev-20261114.221",
+  "floating": [
+    "22-dev",
+    "22.23-dev",
+    "22.23.5-dev"
+  ],
+  "digest": "sha256:201162a9866cebeeecde1086c692093600129f02e8ec7edcf2ec1025b238132b",
+  "node": "22.23.5",
+  "first_release": false,
+  "key_packages": [
+    "ca-certificates-bundle 20261020-r0",
+    "glibc-2.44 2.44-r19",
+    "glibc-2.44-dev 2.44-r19",
+    "libstdc++ 16.2.0-r3",
+    "libstdc++-dev 16.2.0-r3",
+    "nodejs-22-upstream 22.23.5-r0",
+    "npm-12 12.2.2-r1",
+    "openssl-4.0-libcrypto 4.0.3-r8",
+    "openssl-4.0-libssl 4.0.3-r8",
+    "pnpm-11.8 11.8.0-r5",
+    "yarn 1.22.22-r8"
+  ],
+  "packages": {
+    "added": [],
+    "removed": [],
+    "updated": [
+      [
+        "libidn2",
+        "2.3.8-r12",
+        "2.3.8-r13"
+      ]
+    ]
+  },
+  "scans": {
+    "x86_64": {
+      "digest": "sha256:e19f75dc9e5597bcd4307374fc9493fa7ab6e5697cafd465cadaaef97c13806a",
+      "sbom": {
+        "packages": 76,
+        "spdx_packages": 508
+      },
+      "size": {
+        "compressed": 297326956,
+        "installed": 828231093
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 6,
+        "counts": {
+          "Critical": 0,
+          "High": 3,
+          "Medium": 2,
+          "Low": 1,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 0,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-101043",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101043"
+          },
+          {
+            "id": "CVE-2026-82392",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82392"
+          },
+          {
+            "id": "CVE-2026-82393",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82393"
+          },
+          {
+            "id": "CVE-2025-15367",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15367"
+          },
+          {
+            "id": "CVE-2026-116566",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116566"
+          },
+          {
+            "id": "CVE-2026-103995",
+            "severity": "Low",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103995"
+          }
+        ]
+      }
+    },
+    "aarch64": {
+      "digest": "sha256:a14198a65f1fb358e6421473b3594cde62d9779bdd65d2a6ae8afae220f9f76e",
+      "sbom": {
+        "packages": 76,
+        "spdx_packages": 508
+      },
+      "size": {
+        "compressed": 282114806,
+        "installed": 880022643
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 6,
+        "counts": {
+          "Critical": 0,
+          "High": 3,
+          "Medium": 2,
+          "Low": 1,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 0,
+          "Medium": 0,
+          "Low": 0,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-101043",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101043"
+          },
+          {
+            "id": "CVE-2026-82392",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82392"
+          },
+          {
+            "id": "CVE-2026-82393",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r5",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r5",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82393"
+          },
+          {
+            "id": "CVE-2025-15367",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15367"
+          },
+          {
+            "id": "CVE-2026-116566",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116566"
+          },
+          {
+            "id": "CVE-2026-103995",
+            "severity": "Low",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261030-r0",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261030-r0",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103995"
+          }
+        ]
+      }
+    }
+  }
+}
