@@ -1,8 +1,8 @@
 {
   "family": "24-dev",
-  "release": "24.22.3-dev-20261115.243",
+  "release": "24.22.3-dev-20261115.246",
   "node": "24.22.3",
-  "digest": "sha256:d4fef9ac6c37e7a3e05290dea17fbaae697f8f2b699cf4ec2aa1754a5a38b665",
+  "digest": "sha256:e7c0a000c2855b206cd3859584189d86ff00ecafbedaab14a44bd1bc95174bb7",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,12 +53,12 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 287099970,
-      "installed": 771681167
+      "compressed": 287099932,
+      "installed": 771672686
     },
     "aarch64": {
-      "compressed": 270500159,
-      "installed": 821887274
+      "compressed": 270500132,
+      "installed": 821887281
     }
   },
   "key_packages": [
@@ -74,6 +74,6 @@
     "openssl-4.0-libcrypto 4.0.3-r8",
     "openssl-4.0-libssl 4.0.3-r8",
     "pnpm-11.8 11.8.0-r5",
-    "yarn 1.22.22-r8"
+    "yarn 1.22.22-r9"
   ]
 }
