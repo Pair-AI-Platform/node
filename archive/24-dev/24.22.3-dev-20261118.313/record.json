@@ -1,0 +1,944 @@
+{
+  "family": "24-dev",
+  "flavor": "dev",
+  "image": "ghcr.io/pair-ai-platform/node",
+  "release": "24.22.3-dev-20261118.313",
+  "floating": [
+    "24-dev",
+    "24.22-dev",
+    "24.22.3-dev"
+  ],
+  "digest": "sha256:bb70d235dc7bc711742f7b1d2b8cb33badca6a34d17730b8b5294e8f4d83c5f3",
+  "node": "24.22.3",
+  "first_release": false,
+  "key_packages": [
+    "ca-certificates-bundle 20261020-r0",
+    "glibc-2.44 2.44-r23",
+    "glibc-2.44-dev 2.44-r23",
+    "libicu79 79.1-r2",
+    "libstdc++ 16.2.0-r5",
+    "libstdc++-dev 16.2.0-r5",
+    "libuv 1.53.0-r1",
+    "nodejs-24 24.22.3-r2",
+    "npm 12.0.2-r0",
+    "openssl-4.0-libcrypto 4.0.3-r8",
+    "openssl-4.0-libssl 4.0.3-r8",
+    "pnpm-11.8 11.8.0-r6",
+    "yarn 1.22.22-r9"
+  ],
+  "packages": {
+    "added": [],
+    "removed": [],
+    "updated": [
+      [
+        "mpdecimal",
+        "4.0.1-r6",
+        "4.0.1-r7"
+      ]
+    ]
+  },
+  "scans": {
+    "x86_64": {
+      "digest": "sha256:e58991a19c89069b372f28752c30a49575d50bad338890c9d22d90ab100c3f52",
+      "sbom": {
+        "packages": 80,
+        "spdx_packages": 534
+      },
+      "size": {
+        "compressed": 287117544,
+        "installed": 772395211
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 36,
+        "counts": {
+          "Critical": 0,
+          "High": 11,
+          "Medium": 22,
+          "Low": 2,
+          "Negligible": 1,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 8,
+          "Medium": 17,
+          "Low": 1,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-101043",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101043"
+          },
+          {
+            "id": "CVE-2026-82392",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82392"
+          },
+          {
+            "id": "CVE-2026-82393",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82393"
+          },
+          {
+            "id": "GHSA-2m5v-pch6-74hx",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-2m5v-pch6-74hx"
+          },
+          {
+            "id": "GHSA-6j4f-fj2g-mc7p",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.10"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+          },
+          {
+            "id": "GHSA-mwp4-54f8-5fhr",
+            "severity": "High",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.3.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-mwp4-54f8-5fhr"
+          },
+          {
+            "id": "GHSA-qhr7-859c-m2p7",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.11"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+          },
+          {
+            "id": "GHSA-qrxm-fqhp-jwvm",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-qrxm-fqhp-jwvm"
+          },
+          {
+            "id": "GHSA-rfgv-xxqx-mfg5",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rfgv-xxqx-mfg5"
+          },
+          {
+            "id": "GHSA-rgw5-rvv9-x895",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.9"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+          },
+          {
+            "id": "GHSA-xjj6-f33q-929c",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-xjj6-f33q-929c"
+          },
+          {
+            "id": "CVE-2025-15367",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15367"
+          },
+          {
+            "id": "CVE-2026-115559",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115559"
+          },
+          {
+            "id": "CVE-2026-115791",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115791"
+          },
+          {
+            "id": "CVE-2026-116566",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116566"
+          },
+          {
+            "id": "CVE-2026-124249",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124249"
+          },
+          {
+            "id": "GHSA-22jq-vg5j-6vgg",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.2.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-22jq-vg5j-6vgg"
+          },
+          {
+            "id": "GHSA-2vr4-cq9g-pvrc",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.5.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-2vr4-cq9g-pvrc"
+          },
+          {
+            "id": "GHSA-3g3m-2fjr-6pw4",
+            "severity": "Medium",
+            "package": "glob",
+            "version": "13.0.6",
+            "fixed_in": [
+              "14.0.2"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4"
+          },
+          {
+            "id": "GHSA-3wwx-pv8p-q78v",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-3wwx-pv8p-q78v"
+          },
+          {
+            "id": "GHSA-4qv8-2p9j-2685",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-4qv8-2p9j-2685"
+          },
+          {
+            "id": "GHSA-4xrf-jv44-h6hh",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.2.2"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-4xrf-jv44-h6hh"
+          },
+          {
+            "id": "GHSA-8xcm-r25x-g524",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-8xcm-r25x-g524"
+          },
+          {
+            "id": "GHSA-9fm3-97px-rjf6",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-9fm3-97px-rjf6"
+          },
+          {
+            "id": "GHSA-g3hv-75wg-m249",
+            "severity": "Medium",
+            "package": "minimatch",
+            "version": "10.2.3",
+            "fixed_in": [
+              "11.0.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+          },
+          {
+            "id": "GHSA-h3mg-xc3c-68pw",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-h3mg-xc3c-68pw"
+          },
+          {
+            "id": "GHSA-j6r3-76f7-8jcv",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-j6r3-76f7-8jcv"
+          },
+          {
+            "id": "GHSA-m8rv-5g2x-5cg5",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-m8rv-5g2x-5cg5"
+          },
+          {
+            "id": "GHSA-q2hr-2g5m-vwhr",
+            "severity": "Medium",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.12"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+          },
+          {
+            "id": "GHSA-rj75-hqrm-r3gf",
+            "severity": "Medium",
+            "package": "postcss-selector-parser",
+            "version": "7.1.4",
+            "fixed_in": [
+              "7.1.6"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf"
+          },
+          {
+            "id": "GHSA-rpw4-54j3-4h4q",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.5.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rpw4-54j3-4h4q"
+          },
+          {
+            "id": "GHSA-rxp7-6hxx-x8q5",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.4"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rxp7-6hxx-x8q5"
+          },
+          {
+            "id": "GHSA-v3r7-h72x-cjcm",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-v3r7-h72x-cjcm"
+          },
+          {
+            "id": "CVE-2026-103995",
+            "severity": "Low",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103995"
+          },
+          {
+            "id": "GHSA-r53p-7pc4-xj5r",
+            "severity": "Low",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-r53p-7pc4-xj5r"
+          },
+          {
+            "id": "CVE-2026-19552",
+            "severity": "Negligible",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19552"
+          }
+        ]
+      }
+    },
+    "aarch64": {
+      "digest": "sha256:e4d2e56ec9246ed84c22d3d875fad43fff893e8070754d9701edfc338fa88cc6",
+      "sbom": {
+        "packages": 80,
+        "spdx_packages": 534
+      },
+      "size": {
+        "compressed": 270688047,
+        "installed": 822612152
+      },
+      "stig": {
+        "profile": "chainguard-security-guide ssg-chainguard-gpos-ds.xml (DISA GPOS SRG), xccdf_basic_profile_.check",
+        "counts": {
+          "notapplicable": 107,
+          "fail": 6,
+          "pass": 85
+        },
+        "applicable": 91,
+        "score": 93.4,
+        "failed": [
+          {
+            "rule": "SV-203649r971535_rule",
+            "title": "The operating system must use mechanisms meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203739r987791_rule",
+            "title": "The operating system must implement NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203750r958912_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during preparation for transmission.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203751r958914_rule",
+            "title": "The operating system must maintain the confidentiality and integrity of information during reception.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-203776r959006_rule",
+            "title": "The operating system must implement NIST FIPS-validated cryptography for the following: to provision digital signatures, to generate cryptographic hashes, and to protect unclassified information requiring confidentiality and cryptographic protection in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+            "result": "fail"
+          },
+          {
+            "rule": "SV-263659r982563_rule",
+            "title": "The operating system must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+            "result": "fail"
+          }
+        ]
+      },
+      "vulnerabilities": {
+        "scanner": "grype",
+        "total": 36,
+        "counts": {
+          "Critical": 0,
+          "High": 11,
+          "Medium": 22,
+          "Low": 2,
+          "Negligible": 1,
+          "Unknown": 0
+        },
+        "fixable": {
+          "Critical": 0,
+          "High": 8,
+          "Medium": 17,
+          "Low": 1,
+          "Negligible": 0,
+          "Unknown": 0
+        },
+        "findings": [
+          {
+            "id": "CVE-2026-101043",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101043"
+          },
+          {
+            "id": "CVE-2026-82392",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82392"
+          },
+          {
+            "id": "CVE-2026-82393",
+            "severity": "High",
+            "package": "pnpm-11.8",
+            "version": "11.8.0-r6",
+            "fixed_in": [],
+            "source": "pnpm-11.8 11.8.0-r6",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82393"
+          },
+          {
+            "id": "GHSA-2m5v-pch6-74hx",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-2m5v-pch6-74hx"
+          },
+          {
+            "id": "GHSA-6j4f-fj2g-mc7p",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.10"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+          },
+          {
+            "id": "GHSA-mwp4-54f8-5fhr",
+            "severity": "High",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.3.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-mwp4-54f8-5fhr"
+          },
+          {
+            "id": "GHSA-qhr7-859c-m2p7",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.11"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+          },
+          {
+            "id": "GHSA-qrxm-fqhp-jwvm",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-qrxm-fqhp-jwvm"
+          },
+          {
+            "id": "GHSA-rfgv-xxqx-mfg5",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rfgv-xxqx-mfg5"
+          },
+          {
+            "id": "GHSA-rgw5-rvv9-x895",
+            "severity": "High",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.9"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+          },
+          {
+            "id": "GHSA-xjj6-f33q-929c",
+            "severity": "High",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-xjj6-f33q-929c"
+          },
+          {
+            "id": "CVE-2025-15367",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15367"
+          },
+          {
+            "id": "CVE-2026-115559",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115559"
+          },
+          {
+            "id": "CVE-2026-115791",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115791"
+          },
+          {
+            "id": "CVE-2026-116566",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116566"
+          },
+          {
+            "id": "CVE-2026-124249",
+            "severity": "Medium",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124249"
+          },
+          {
+            "id": "GHSA-22jq-vg5j-6vgg",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.2.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-22jq-vg5j-6vgg"
+          },
+          {
+            "id": "GHSA-2vr4-cq9g-pvrc",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.5.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-2vr4-cq9g-pvrc"
+          },
+          {
+            "id": "GHSA-3g3m-2fjr-6pw4",
+            "severity": "Medium",
+            "package": "glob",
+            "version": "13.0.6",
+            "fixed_in": [
+              "14.0.2"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4"
+          },
+          {
+            "id": "GHSA-3wwx-pv8p-q78v",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-3wwx-pv8p-q78v"
+          },
+          {
+            "id": "GHSA-4qv8-2p9j-2685",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-4qv8-2p9j-2685"
+          },
+          {
+            "id": "GHSA-4xrf-jv44-h6hh",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.2.2"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-4xrf-jv44-h6hh"
+          },
+          {
+            "id": "GHSA-8xcm-r25x-g524",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-8xcm-r25x-g524"
+          },
+          {
+            "id": "GHSA-9fm3-97px-rjf6",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.29.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-9fm3-97px-rjf6"
+          },
+          {
+            "id": "GHSA-g3hv-75wg-m249",
+            "severity": "Medium",
+            "package": "minimatch",
+            "version": "10.2.3",
+            "fixed_in": [
+              "11.0.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+          },
+          {
+            "id": "GHSA-h3mg-xc3c-68pw",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-h3mg-xc3c-68pw"
+          },
+          {
+            "id": "GHSA-j6r3-76f7-8jcv",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-j6r3-76f7-8jcv"
+          },
+          {
+            "id": "GHSA-m8rv-5g2x-5cg5",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-m8rv-5g2x-5cg5"
+          },
+          {
+            "id": "GHSA-q2hr-2g5m-vwhr",
+            "severity": "Medium",
+            "package": "brace-expansion",
+            "version": "5.0.8",
+            "fixed_in": [
+              "5.0.12"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+          },
+          {
+            "id": "GHSA-rj75-hqrm-r3gf",
+            "severity": "Medium",
+            "package": "postcss-selector-parser",
+            "version": "7.1.4",
+            "fixed_in": [
+              "7.1.6"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf"
+          },
+          {
+            "id": "GHSA-rpw4-54j3-4h4q",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.5.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rpw4-54j3-4h4q"
+          },
+          {
+            "id": "GHSA-rxp7-6hxx-x8q5",
+            "severity": "Medium",
+            "package": "ip-address",
+            "version": "10.2.0",
+            "fixed_in": [
+              "10.7.4"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-rxp7-6hxx-x8q5"
+          },
+          {
+            "id": "GHSA-v3r7-h72x-cjcm",
+            "severity": "Medium",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.0"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-v3r7-h72x-cjcm"
+          },
+          {
+            "id": "CVE-2026-103995",
+            "severity": "Low",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103995"
+          },
+          {
+            "id": "GHSA-r53p-7pc4-xj5r",
+            "severity": "Low",
+            "package": "undici",
+            "version": "6.27.0",
+            "fixed_in": [
+              "6.28.1"
+            ],
+            "source": "npm 12.0.2-r0",
+            "url": "https://github.com/advisories/GHSA-r53p-7pc4-xj5r"
+          },
+          {
+            "id": "CVE-2026-19552",
+            "severity": "Negligible",
+            "package": "python-3.13",
+            "version": "3.13.18_git20261115-r1",
+            "fixed_in": [],
+            "source": "python-3.13 3.13.18_git20261115-r1",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19552"
+          }
+        ]
+      }
+    }
+  }
+}
