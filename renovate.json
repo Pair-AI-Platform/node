@@ -102,6 +102,13 @@
       "groupName": "ci tooling"
     },
     {
+      "description": "Keep oras at 1.3.x until setup-oras supports 1.4.0",
+      "matchDepNames": [
+        "oras-project/oras"
+      ],
+      "allowedVersions": "<1.4.0"
+    },
+    {
       "description": "Wolfi OS packages from packages.wolfi.dev: automerged once images build, test and scan",
       "matchDatasources": [
         "apk"
