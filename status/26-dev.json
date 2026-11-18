@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.1-dev-20261118.309",
+  "release": "26.13.1-dev-20261118.312",
   "node": "26.13.1",
-  "digest": "sha256:443e981a7230d5275c8f9d1995207012cc5434a092ade4cafb1a03e26862a459",
+  "digest": "sha256:c40fd7dbfb4c3f0facd5bd09761e0bfb4248ffd3e9ed0dccc5b327b8191c810d",
   "stig": {
     "x86_64": {
       "counts": {
@@ -26,7 +26,7 @@
   "vulnerabilities": {
     "x86_64": {
       "Critical": 0,
-      "High": 13,
+      "High": 11,
       "Medium": 22,
       "Low": 2,
       "Negligible": 1,
@@ -34,7 +34,7 @@
     },
     "aarch64": {
       "Critical": 0,
-      "High": 13,
+      "High": 11,
       "Medium": 22,
       "Low": 2,
       "Negligible": 1,
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 290978652,
-      "installed": 782615986
+      "compressed": 290978669,
+      "installed": 782624448
     },
     "aarch64": {
-      "compressed": 274451770,
+      "compressed": 274451811,
       "installed": 835337933
     }
   },
