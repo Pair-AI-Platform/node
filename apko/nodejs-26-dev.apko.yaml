@@ -10,8 +10,10 @@ contents:
     - wolfi-baselayout
     - ca-certificates-bundle
     - tzdata
-    - nodejs-26
-    - npm
+    # renovate: datasource=apk
+    - nodejs-26=26.13.1-r1
+    # renovate: datasource=apk
+    - npm=12.0.2-r0
     - yarn
     - pnpm
     - busybox

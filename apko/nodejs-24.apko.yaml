@@ -10,7 +10,8 @@ contents:
     - wolfi-baselayout
     - ca-certificates-bundle
     - tzdata
-    - nodejs-24
+    # renovate: datasource=apk
+    - nodejs-24=24.22.3-r2
     - busybox
     - bash
 

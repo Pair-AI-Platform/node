@@ -12,7 +12,8 @@ contents:
     - ca-certificates-bundle
     - tzdata
     - nodejs-22-upstream
-    - npm
+    # renovate: datasource=apk
+    - npm=12.0.2-r0
     - yarn
     - pnpm
     - busybox
