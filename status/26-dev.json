@@ -1,8 +1,8 @@
 {
   "family": "26-dev",
-  "release": "26.13.1-dev-20261118.313",
+  "release": "26.13.1-dev-20261119.316",
   "node": "26.13.1",
-  "digest": "sha256:a251451c7c49dd431851c39732fc411e7096dd43468c7027e22de7e8f97a26ed",
+  "digest": "sha256:8d30284eb76f31bdfe1aaa8927f1f8c2771d45ea6614fc446c47a2531b6e6f73",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,11 +53,11 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 290978652,
-      "installed": 782615986
+      "compressed": 290978621,
+      "installed": 782624448
     },
     "aarch64": {
-      "compressed": 274451800,
+      "compressed": 274451789,
       "installed": 835337933
     }
   },
