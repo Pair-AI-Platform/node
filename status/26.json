@@ -1,8 +1,8 @@
 {
   "family": "26",
-  "release": "26.13.1-20261122.361",
+  "release": "26.13.1-20261123.381",
   "node": "26.13.1",
-  "digest": "sha256:03eb4f403dbdbfaf40a506da2077e28b36e692f11eb47654d1bac124c065de38",
+  "digest": "sha256:e8846829ad04b5f9d491ff25318619dcdd0792ffd003f91bd192dc0a9690ab63",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,16 +53,16 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 62104458,
+      "compressed": 62104283,
       "installed": 164200748
     },
     "aarch64": {
-      "compressed": 59501901,
+      "compressed": 59501707,
       "installed": 161688981
     }
   },
   "key_packages": [
-    "ca-certificates-bundle 20261020-r0",
+    "ca-certificates-bundle 20261020-r1",
     "glibc-2.44 2.44-r24",
     "libicu79 79.1-r2",
     "libstdc++ 16.2.0-r5",

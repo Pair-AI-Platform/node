@@ -1,8 +1,8 @@
 {
   "family": "24",
-  "release": "24.22.3-20261122.361",
+  "release": "24.22.3-20261123.381",
   "node": "24.22.3",
-  "digest": "sha256:04c4284a574c6dc48e7a5854778af30658a2d71e0c7e2f460f50ab7ea5839f58",
+  "digest": "sha256:0d0d2190c5759b9337efeca998316807fbae47fecdb69fa3d632d8fb7646f5c7",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,16 +53,16 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 58519304,
-      "installed": 153971511
+      "compressed": 58519123,
+      "installed": 153968295
     },
     "aarch64": {
-      "compressed": 55597383,
+      "compressed": 55597173,
       "installed": 148963200
     }
   },
   "key_packages": [
-    "ca-certificates-bundle 20261020-r0",
+    "ca-certificates-bundle 20261020-r1",
     "glibc-2.44 2.44-r24",
     "libicu79 79.1-r2",
     "libstdc++ 16.2.0-r5",
