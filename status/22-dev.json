@@ -1,8 +1,8 @@
 {
   "family": "22-dev",
-  "release": "22.23.5-dev-20261122.363",
+  "release": "22.23.5-dev-20261123.382",
   "node": "22.23.5",
-  "digest": "sha256:612b43e834e3689c348062f7a0141501013907358c1001f2a110e830181b5f72",
+  "digest": "sha256:fe2b60b5a2c7d808cff2f0d2258945c2e1c8aad92cd90b4c0c6d2ca4bb66b1cb",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,16 +53,16 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 297491731,
-      "installed": 828986236
+      "compressed": 297477496,
+      "installed": 828989383
     },
     "aarch64": {
-      "compressed": 282269716,
-      "installed": 880771712
+      "compressed": 282290883,
+      "installed": 880774859
     }
   },
   "key_packages": [
-    "ca-certificates-bundle 20261020-r0",
+    "ca-certificates-bundle 20261020-r1",
     "glibc-2.44 2.44-r24",
     "glibc-2.44-dev 2.44-r24",
     "libstdc++ 16.2.0-r5",
