@@ -27,7 +27,7 @@
     "x86_64": {
       "Critical": 0,
       "High": 11,
-      "Medium": 23,
+      "Medium": 25,
       "Low": 4,
       "Negligible": 1,
       "Unknown": 0
@@ -35,7 +35,7 @@
     "aarch64": {
       "Critical": 0,
       "High": 11,
-      "Medium": 23,
+      "Medium": 25,
       "Low": 4,
       "Negligible": 1,
       "Unknown": 0
