@@ -1,8 +1,8 @@
 {
   "family": "24-dev",
-  "release": "24.22.3-dev-20261125.415",
+  "release": "24.22.3-dev-20261125.420",
   "node": "24.22.3",
-  "digest": "sha256:c5f9b40051a2913b435ac70ea9e46fbb09a18aa79b9a3a6b6bc2f1c8d43bc066",
+  "digest": "sha256:4a7bf87b3c2807468861abbe6f78acf6289e16d81d94c42f0f7ebbf14ff93fd6",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,19 +53,19 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 288103030,
-      "installed": 774433320
+      "compressed": 288123870,
+      "installed": 774433360
     },
     "aarch64": {
-      "compressed": 271723082,
+      "compressed": 271723075,
       "installed": 826961847
     }
   },
   "key_packages": [
     "ca-certificates-bundle 20261020-r1",
-    "glibc-2.44 2.44-r26",
-    "glibc-2.44-dev 2.44-r26",
-    "glibc-2.44-iconv-common 2.44-r26",
+    "glibc-2.44 2.44-r27",
+    "glibc-2.44-dev 2.44-r27",
+    "glibc-2.44-iconv-common 2.44-r27",
     "libicu79 79.1-r2",
     "libstdc++ 16.2.0-r5",
     "libstdc++-dev 16.2.0-r5",
