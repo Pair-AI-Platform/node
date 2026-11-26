@@ -1,8 +1,8 @@
 {
   "family": "22-dev",
-  "release": "22.23.5-dev-20261125.421",
+  "release": "22.23.5-dev-20261126.426",
   "node": "22.23.5",
-  "digest": "sha256:8d0f361434589c1fd85bd6603fef384ed55ac7c6c57ad0afaf204ee492c75039",
+  "digest": "sha256:f59e18b7ecf0441c544cf3232c3e1549fdf960c6ce7b47a083021cffe4dbc0eb",
   "stig": {
     "x86_64": {
       "counts": {
@@ -53,19 +53,19 @@
   },
   "size": {
     "x86_64": {
-      "compressed": 298268937,
-      "installed": 831015894
+      "compressed": 298269896,
+      "installed": 831015942
     },
     "aarch64": {
-      "compressed": 283358408,
-      "installed": 885121288
+      "compressed": 283358931,
+      "installed": 885121336
     }
   },
   "key_packages": [
     "ca-certificates-bundle 20261020-r1",
-    "glibc-2.44 2.44-r27",
-    "glibc-2.44-dev 2.44-r27",
-    "glibc-2.44-iconv-common 2.44-r27",
+    "glibc-2.44 2.44-r28",
+    "glibc-2.44-dev 2.44-r28",
+    "glibc-2.44-iconv-common 2.44-r28",
     "libstdc++ 16.2.0-r5",
     "libstdc++-dev 16.2.0-r5",
     "nodejs-22-upstream 22.23.5-r0",
